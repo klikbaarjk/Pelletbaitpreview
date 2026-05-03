@@ -1,524 +1,694 @@
 <!doctype html>
 <html lang="nl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0a0f0e">
-  <title>Shop — PELLETBAITS</title>
-  <meta name="description" content="Het complete Coppens-assortiment. Karperpellets, meervalpellets, method feeder pellets en meer.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/theme.css">
-  <style>
-    /* Shop section styles (from shop-section.liquid) */
-    .shop-section { padding: 140px 0 120px; background: var(--bg); }
-
-    .pb-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .pb-card {
-      background: var(--bg-2);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
-    }
-    .pb-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--line-2);
-      box-shadow: 0 24px 60px rgba(0,0,0,.4);
-    }
-
-    .pb-card-img {
-      position: relative;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      background: var(--deep);
-      display: block;
-      flex-shrink: 0;
-    }
-    .pb-card-img img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: saturate(.9);
-      transition: transform .8s ease;
-    }
-    .pb-card:hover .pb-card-img img { transform: scale(1.06); }
-
-    .pb-card-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--ink-3); opacity: .35;
-    }
-
-    .pb-badge {
-      position: absolute;
-      top: 12px; left: 12px;
-      font-size: 9px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      font-weight: 700;
-      padding: 4px 9px;
-      border-radius: 4px;
-    }
-    .pb-badge--bestseller { background: rgba(255,255,255,.95); color: #0a0f0e; }
-    .pb-badge--nieuw      { background: var(--accent); color: #fff; }
-    .pb-badge--premium    { background: var(--moss); color: var(--ink); border: 1px solid rgba(255,255,255,.12); }
-    .pb-badge--bulk       { background: #9a5400; color: #fff; }
-
-    .pb-card-body {
-      padding: 16px 18px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      flex: 1;
-    }
-
-    .pb-card-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .pb-card-type {
-      font-size: 9px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      font-weight: 500;
-    }
-    .pb-rating {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-    .pb-stars { display: flex; gap: 1px; color: #e8a020; }
-    .pb-rating-score { font-size: 11px; font-weight: 600; color: var(--ink-2); }
-    .pb-rating-count { font-size: 10px; color: var(--ink-3); }
-
-    .pb-card-title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 22px;
-      letter-spacing: .01em;
-      text-transform: uppercase;
-      color: var(--ink);
-      line-height: 1;
-      margin: 0;
-    }
-    .pb-card-title a { color: inherit; }
-    .pb-card-title a:hover { color: var(--ink-2); }
-
-    .pb-card-vendor {
-      font-size: 11px;
-      color: var(--ink-3);
-      margin-top: -2px;
-    }
-
-    .pb-pill-row { display: flex; flex-wrap: wrap; gap: 5px; }
-    .pb-pill {
-      padding: 4px 9px;
-      border: 1px solid var(--line-2);
-      border-radius: 3px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--ink-3);
-      letter-spacing: .04em;
-      white-space: nowrap;
-    }
-    .pb-pill.is-active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .pb-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 12px;
-      border-top: 1px solid var(--line);
-      margin-top: auto;
-    }
-    .pb-card-price {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 26px;
-      color: var(--ink);
-      line-height: 1;
-    }
-    .pb-price-from {
-      font-size: .6em;
-      font-weight: 500;
-      color: var(--ink-3);
-      letter-spacing: .05em;
-    }
-    .pb-card-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: #fff;
-      color: #0a0f0e;
-      flex-shrink: 0;
-      transition: background 140ms ease;
-    }
-    .pb-card-btn:hover { background: var(--ink); }
-
-    @media (max-width: 900px) { .pb-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 620px) {
-      .pb-grid { grid-template-columns: 1fr; }
-      .shop-section { padding: 80px 0; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Karper Pellets — PELLETBAITS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0f0e; --bg-2:#0f1614; --bg-3:#141d1b;
+    --ink:#e8efe9; --ink-2:#a8b3ad; --ink-3:#6b7672;
+    --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+    --accent:#d6342f; --accent-2:#b32721;
+    --gold:#e9b94a; --moss:#3a5e3f;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  img{display:block;max-width:100%}
+  ::selection{background:var(--accent);color:#fff}
+  .display{font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:-.01em;line-height:.92;text-transform:uppercase}
+  .eyebrow{font-family:'Inter';font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+  .num{font-family:'Barlow Condensed';font-weight:600;font-size:14px;letter-spacing:.05em;color:var(--ink-3)}
+  .container{max-width:1440px;margin:0 auto;padding:0 32px}
+  input[type=checkbox]{accent-color:var(--accent)}
+  input[type=range]{accent-color:var(--accent)}
+  @media(max-width:720px){.container{padding:0 20px}}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
-<body class="template-collection">
+<body>
+<div id="root"></div>
 
-  <!-- HEADER -->
-  <header class="site-header" role="banner">
-    <div class="container">
-      <div class="header-inner">
-        <a href="index.html" class="header-logo-wrap" aria-label="Pelletbaits">
-          <span class="header-logo-icon" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12c0 0-5-7-9-7s-9 7-9 7 5 7 9 7 9-7 9-7z"/>
-              <circle cx="12" cy="12" r="2.5"/>
-            </svg>
-          </span>
-          <span class="header-logo-text">PELLETBAITS</span>
+<script type="text/babel" data-presets="react">
+const { useState, useMemo, useEffect } = React;
+
+/* ---------- ICONS ---------- */
+const Icon = {
+  Logo:({size=18})=>(<svg width={size} height={size} viewBox="0 0 32 32" fill="none"><path d="M3 16c4-6 9-9 14-9 4 0 8 2 12 5-3 4-7 6-12 6-3 0-7-1-10-3 1 3 4 5 7 6-4 1-8-1-11-5z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/><circle cx="22" cy="13" r="1" fill="currentColor"/></svg>),
+  Search:()=>(<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>),
+  Bag:()=>(<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>),
+  Arrow:({d='right',size=16})=>{const r={right:0,down:90,left:180,up:270}[d];return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" style={{transform:`rotate(${r}deg)`}}><path d="M5 12h14M13 6l6 6-6 6"/></svg>},
+  Plus:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>),
+  Minus:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/></svg>),
+  Heart:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg>),
+  Star:({filled=true})=>(<svg width="13" height="13" viewBox="0 0 24 24" fill={filled?'currentColor':'none'} stroke="currentColor" strokeWidth="1.5"><path d="M12 2l3 7 7 .6-5.5 4.6L18 21l-6-3.6L6 21l1.5-6.8L2 9.6 9 9z"/></svg>),
+  Filter:()=>(<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 6h18M6 12h12M10 18h4"/></svg>),
+  Grid:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>),
+  List:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>),
+  Truck:()=>(<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>),
+  Box:()=>(<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7"/></svg>),
+  Chev:({d='down'})=>{const r={down:0,up:180}[d];return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{transform:`rotate(${r}deg)`}}><path d="M6 9l6 6 6-6"/></svg>},
+  Check:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12l5 5 9-11"/></svg>),
+  Drop:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 3c4 5 7 8 7 12a7 7 0 1 1-14 0c0-4 3-7 7-12z"/></svg>),
+  Ruler:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="8" width="20" height="8"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg>),
+  Weight:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 7h14l-2 14H7L5 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>),
+};
+
+/* ---------- BAG MOCKUP (SVG) ---------- */
+function BagMockup({color='black', label='Carp Pro', sub='HALIBUT', size='5kg', diameter='6mm', accent='#e9b94a'}){
+  const palettes = {
+    black:{bg:'#1a1f1d', bg2:'#0e1311', accent:accent, ink:'#fff'},
+    orange:{bg:'#c45a1c', bg2:'#a84813', accent:'#fff', ink:'#fff'},
+    red:{bg:'#a3251f', bg2:'#7d1a15', accent:'#e9b94a', ink:'#fff'},
+    teal:{bg:'#0e3a3e', bg2:'#08272a', accent:'#7ec9c6', ink:'#fff'},
+  };
+  const p = palettes[color] || palettes.black;
+  return (
+    <svg viewBox="0 0 240 280" style={{width:'100%',height:'100%'}}>
+      <defs>
+        <linearGradient id={`bg-${color}`} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor={p.bg}/><stop offset="1" stopColor={p.bg2}/>
+        </linearGradient>
+        <linearGradient id={`shine-${color}`} x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stopColor="rgba(255,255,255,0)"/><stop offset=".5" stopColor="rgba(255,255,255,.08)"/><stop offset="1" stopColor="rgba(255,255,255,0)"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="120" cy="265" rx="80" ry="6" fill="rgba(0,0,0,.35)"/>
+      <path d="M40 30 Q40 24 46 24 L194 24 Q200 24 200 30 L200 254 Q200 260 194 260 L46 260 Q40 260 40 254 Z" fill={`url(#bg-${color})`}/>
+      <rect x="40" y="24" width="160" height="14" fill={p.bg2}/>
+      <path d="M40 24 L60 14 L80 24 L100 14 L120 24 L140 14 L160 24 L180 14 L200 24" fill={p.bg2} stroke={p.bg2} strokeWidth="1"/>
+      <rect x="40" y="38" width="160" height="222" fill={`url(#shine-${color})`}/>
+      <rect x="50" y="50" width="140" height="22" fill={p.accent}/>
+      <text x="120" y="65" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="800" fontSize="11" fill="#0a0f0e" letterSpacing="3">PELLETBAITS</text>
+      <text x="120" y="110" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="800" fontSize="26" fill={p.ink} letterSpacing="0.5">{label.toUpperCase()}</text>
+      <text x="120" y="128" textAnchor="middle" fontFamily="Inter" fontWeight="500" fontSize="9" fill={p.accent} letterSpacing="3">{sub}</text>
+      <circle cx="120" cy="170" r="32" fill="none" stroke={p.accent} strokeWidth="1.5"/>
+      <text x="120" y="170" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="800" fontSize="22" fill={p.accent}>{diameter}</text>
+      <text x="120" y="184" textAnchor="middle" fontFamily="Inter" fontSize="6" fill={p.accent} letterSpacing="2">DIAMETER</text>
+      <rect x="85" y="220" width="70" height="24" rx="12" fill={p.accent}/>
+      <text x="120" y="236" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="800" fontSize="14" fill="#0a0f0e">{size}</text>
+    </svg>
+  );
+}
+
+/* ---------- DATA ---------- */
+const PRODUCTS = [
+  {id:'carppro',name:'Carp Pro',type:'Karper Pellets',sub:'Halibut',price:34.95,sizes:['1kg','5kg','15kg'],diameters:['2mm','4mm','6mm','8mm'],rating:4.8,reviews:1257,tag:'Bestseller',color:'black',accent:'#e9b94a'},
+  {id:'meerval',name:'Meerval Monster',type:'Meerval Pellets',sub:'Bloed & Lever',price:64.95,sizes:['2kg','8kg','20kg'],diameters:['8mm','12mm','16mm'],rating:4.6,reviews:432,tag:'Nieuw',color:'black',accent:'#a3251f'},
+  {id:'methodmix',name:'Method Mix',type:'Method Bait',sub:'Vanille & Tijgernoot',price:19.95,sizes:['600g','2kg'],diameters:['Fijn','Grof'],rating:4.7,reviews:889,tag:'Populair',color:'black',accent:'#3a5e3f'},
+  {id:'hookbaits',name:'Hookbaits',type:'Hookbaits',sub:'Spicy Hazel',price:9.95,sizes:['100g','250g'],diameters:['12mm','16mm','20mm'],rating:4.8,reviews:622,tag:'Nieuw',color:'orange',accent:'#fff'},
+  {id:'feed',name:'Feed Pellets',type:'Feed Pellets',sub:'Sweet Corn',price:54.95,salePrice:44.95,sizes:['5kg','25kg'],diameters:['4mm','6mm'],rating:4.6,reviews:1102,tag:'Bulk-deal',color:'red',accent:'#e9b94a'},
+  {id:'witvis',name:'Witvis Master',type:'Witvis Pellets',sub:'Aniseed',price:13.95,sizes:['600g','2kg'],diameters:['2mm','3mm'],rating:4.6,reviews:380,tag:null,color:'black',accent:'#7ec9c6'},
+  {id:'elite',name:'Karper Elite',type:'Karper Pellets',sub:'Birdfood & Krill',price:62.95,sizes:['8kg','15kg'],diameters:['6mm','8mm'],rating:4.8,reviews:540,tag:'Premium',color:'orange',accent:'#fff'},
+  {id:'starter',name:'Starter Pakket',type:'Bundle',sub:'Mix Bundle',price:39.95,salePrice:29.95,sizes:['Bundel'],diameters:['Compleet'],rating:4.7,reviews:213,tag:'Aanbieding',color:'teal',accent:'#7ec9c6'},
+];
+
+/* ---------- NAV ---------- */
+function Nav({cartCount,onCart}){
+  return (
+    <nav style={{position:'sticky',top:0,zIndex:50,padding:'16px 0',background:'rgba(10,15,14,.92)',backdropFilter:'blur(14px)',borderBottom:'1px solid var(--line)'}}>
+      <div className="container" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:24}}>
+        <a href="index.html" style={{display:'flex',alignItems:'center',gap:10}}>
+          <span style={{display:'inline-flex',alignItems:'center',justifyContent:'center',width:34,height:34,border:'1px solid var(--line-2)',borderRadius:'50%'}}><Icon.Logo/></span>
+          <span style={{fontFamily:'Barlow Condensed',fontWeight:800,fontSize:18,letterSpacing:'.18em'}}>PELLETBAITS</span>
         </a>
-        <nav class="header-nav" role="navigation" aria-label="Hoofdmenu">
-          <a href="shop.html" style="color:#fff">Karper</a>
-          <a href="shop.html">Koi &amp; Vijver</a>
-          <a href="shop.html">Meerval</a>
-          <a href="shop.html">Witvis</a>
-          <a href="shop.html">Tools</a>
+        <div className="navlinks" style={{display:'flex',gap:32,fontSize:13,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(255,255,255,.85)'}}>
+          <a href="shop.html" style={{color:'#fff'}}>Shop</a>
+          <a href="shop.html">Karper Pellets</a>
+          <a href="shop.html">Hookbaits</a>
+          <a href="shop.html">Liquids</a>
           <a href="over-ons.html">Over Ons</a>
-        </nav>
-        <div class="header-actions">
-          <button class="header-cart-btn" data-cart-open aria-label="Winkelwagen openen">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/>
-            </svg>
-            Cart
-          </button>
-          <button class="mobile-menu-btn" id="mobile-nav-open" aria-label="Menu openen" aria-expanded="false" aria-controls="mobile-nav">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <line x1="3" y1="12" x2="21" y2="12"/>
-              <line x1="3" y1="18" x2="21" y2="18"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main id="main-content" tabindex="-1">
-
-    <!-- COLLECTION HEADER -->
-    <div class="collection-header">
-      <div class="container">
-        <div class="collection-breadcrumb">
           <a href="index.html">Home</a>
-          <span>·</span>
-          <span>Shop</span>
         </div>
-        <h1 class="collection-title display">Alle<br><span style="color:var(--accent)">Producten</span></h1>
-        <p class="collection-desc">Het complete Coppens-assortiment — karperpellets, meervalpellets, method feeder, pellet waggler en mixen op maat.</p>
-      </div>
-    </div>
-
-    <!-- SHOP SECTION -->
-    <section class="shop-section" aria-labelledby="shop-heading">
-      <div class="container">
-
-        <div class="section-header-row">
-          <div>
-            <p class="eyebrow" style="margin-bottom:16px">Onze keuze</p>
-            <h2 class="bs-headline display" id="shop-heading">Best<span class="muted">sellers</span></h2>
-          </div>
-          <div class="section-nav-controls">
-            <a href="shop.html" class="feat-cta">
-              Alle producten
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <div class="pb-grid" role="list">
-
-          <!-- Product 1: Hard Hook Bait -->
-          <div role="listitem">
-            <article class="pb-card">
-              <a href="#" class="pb-card-img" tabindex="-1" aria-label="Hard Hook Bait">
-                <div class="pb-card-placeholder" aria-hidden="true">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
-                    <circle cx="32" cy="32" r="20" fill="currentColor" opacity=".5"/>
-                    <circle cx="14" cy="26" r="9" fill="currentColor" opacity=".35"/>
-                    <circle cx="50" cy="22" r="11" fill="currentColor" opacity=".3"/>
-                  </svg>
-                </div>
-                <span class="pb-badge pb-badge--bestseller">Bestseller</span>
-              </a>
-              <div class="pb-card-body">
-                <div class="pb-card-meta">
-                  <p class="pb-card-type">Karper Pellets</p>
-                  <div class="pb-rating" aria-label="Beoordeling 4.8">
-                    <span class="pb-stars" aria-hidden="true">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </span>
-                    <span class="pb-rating-score">4.8</span>
-                    <span class="pb-rating-count">502</span>
-                  </div>
-                </div>
-                <h3 class="pb-card-title"><a href="#">Hard Hook Bait</a></h3>
-                <p class="pb-card-vendor">Halibut</p>
-                <div class="pb-pill-row" aria-label="Beschikbare maten">
-                  <span class="pb-pill is-active">2mm</span>
-                  <span class="pb-pill">4mm</span>
-                  <span class="pb-pill">6mm</span>
-                  <span class="pb-pill">8mm</span>
-                </div>
-                <div class="pb-pill-row" aria-label="Beschikbare gewichten">
-                  <span class="pb-pill is-active">1 kg</span>
-                  <span class="pb-pill">5 kg</span>
-                  <span class="pb-pill">15 kg</span>
-                </div>
-                <div class="pb-card-footer">
-                  <p class="pb-card-price">€34,95</p>
-                  <a href="#" class="pb-card-btn" aria-label="Bekijk Hard Hook Bait">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </a>
-                </div>
-              </div>
-            </article>
-          </div>
-
-          <!-- Product 2: Meerval Monster -->
-          <div role="listitem">
-            <article class="pb-card">
-              <a href="#" class="pb-card-img" tabindex="-1" aria-label="Meerval Monster">
-                <div class="pb-card-placeholder" aria-hidden="true">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
-                    <circle cx="32" cy="32" r="20" fill="currentColor" opacity=".5"/>
-                    <circle cx="14" cy="26" r="9" fill="currentColor" opacity=".35"/>
-                    <circle cx="50" cy="22" r="11" fill="currentColor" opacity=".3"/>
-                  </svg>
-                </div>
-                <span class="pb-badge pb-badge--bestseller">Bestseller</span>
-              </a>
-              <div class="pb-card-body">
-                <div class="pb-card-meta">
-                  <p class="pb-card-type">Meerval Pellets</p>
-                  <div class="pb-rating" aria-label="Beoordeling 4.8">
-                    <span class="pb-stars" aria-hidden="true">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </span>
-                    <span class="pb-rating-score">4.8</span>
-                    <span class="pb-rating-count">630</span>
-                  </div>
-                </div>
-                <h3 class="pb-card-title"><a href="#">Meerval Monster</a></h3>
-                <p class="pb-card-vendor">Makreel &amp; Lever</p>
-                <div class="pb-pill-row" aria-label="Beschikbare maten">
-                  <span class="pb-pill is-active">12mm</span>
-                  <span class="pb-pill">20mm</span>
-                  <span class="pb-pill">30mm</span>
-                </div>
-                <div class="pb-pill-row" aria-label="Beschikbare gewichten">
-                  <span class="pb-pill is-active">2 kg</span>
-                  <span class="pb-pill">8 kg</span>
-                  <span class="pb-pill">20 kg</span>
-                </div>
-                <div class="pb-card-footer">
-                  <p class="pb-card-price">€64,95</p>
-                  <a href="#" class="pb-card-btn" aria-label="Bekijk Meerval Monster">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </a>
-                </div>
-              </div>
-            </article>
-          </div>
-
-          <!-- Product 3: Method Mix -->
-          <div role="listitem">
-            <article class="pb-card">
-              <a href="#" class="pb-card-img" tabindex="-1" aria-label="Method Mix">
-                <div class="pb-card-placeholder" aria-hidden="true">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
-                    <circle cx="32" cy="32" r="20" fill="currentColor" opacity=".5"/>
-                    <circle cx="14" cy="26" r="9" fill="currentColor" opacity=".35"/>
-                    <circle cx="50" cy="22" r="11" fill="currentColor" opacity=".3"/>
-                  </svg>
-                </div>
-                <span class="pb-badge pb-badge--bestseller">Beste keuze</span>
-              </a>
-              <div class="pb-card-body">
-                <div class="pb-card-meta">
-                  <p class="pb-card-type">Method Mix</p>
-                  <div class="pb-rating" aria-label="Beoordeling 4.7">
-                    <span class="pb-stars" aria-hidden="true">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </span>
-                    <span class="pb-rating-score">4.7</span>
-                    <span class="pb-rating-count">631</span>
-                  </div>
-                </div>
-                <h3 class="pb-card-title"><a href="#">Method Mix</a></h3>
-                <p class="pb-card-vendor">Vanille &amp; Tiger Noot</p>
-                <div class="pb-pill-row" aria-label="Beschikbare gewichten">
-                  <span class="pb-pill is-active">600g</span>
-                  <span class="pb-pill">2 kg</span>
-                </div>
-                <div class="pb-card-footer">
-                  <p class="pb-card-price">€11,95</p>
-                  <a href="#" class="pb-card-btn" aria-label="Bekijk Method Mix">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </a>
-                </div>
-              </div>
-            </article>
-          </div>
-
+        <div style={{display:'flex',alignItems:'center',gap:14}}>
+          <button style={{display:'flex',alignItems:'center',justifyContent:'center',width:34,height:34,borderRadius:'50%',border:'1px solid var(--line-2)'}}><Icon.Search/></button>
+          <button onClick={onCart} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 14px 8px 12px',borderRadius:999,background:'#fff',color:'#0a0f0e',fontWeight:600,fontSize:12,letterSpacing:'.14em',textTransform:'uppercase'}}>
+            <Icon.Bag/> Cart · {cartCount}
+          </button>
         </div>
       </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-logo-wrap">
-            <span class="footer-logo-icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12c0 0-5-7-9-7s-9 7-9 7 5 7 9 7 9-7 9-7z"/>
-                <circle cx="12" cy="12" r="2.5"/>
-              </svg>
-            </span>
-            <span class="footer-logo-text">PELLETBAITS</span>
-          </div>
-          <p class="footer-desc">Dé specialist in vispellets. Officieel distributeur van Alltech Coppens — het meest uitgebreide assortiment vispellets voor elke vissoort.</p>
-          <div class="footer-contact" style="margin-top:20px;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--ink-3);">
-            <a href="mailto:info@pelletbaits.nl" style="transition:color .14s ease;">info@pelletbaits.nl</a>
-            <a href="tel:+31610487142" style="transition:color .14s ease;">06-10487142</a>
-            <span>De Droogmakerij 22D, Heiloo</span>
-          </div>
-        </div>
-        <div>
-          <p class="footer-col-title eyebrow">Vissoorten</p>
-          <ul class="footer-links">
-            <li><a href="shop.html">Koi &amp; Vijver</a></li>
-            <li><a href="shop.html">Karper</a></li>
-            <li><a href="shop.html">Meerval</a></li>
-            <li><a href="shop.html">Witvis</a></li>
-            <li><a href="shop.html">Tools</a></li>
-            <li><a href="shop.html">Alle producten</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title eyebrow">Informatie</p>
-          <ul class="footer-links">
-            <li><a href="over-ons.html">Over Ons</a></li>
-            <li><a href="#">Klantenservice</a></li>
-            <li><a href="#">Verzending &amp; Retour</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Nieuws</a></li>
-            <li><a href="#">Mijn account</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title eyebrow">Nieuwsbrief</p>
-          <p class="footer-newsletter-body">Ontvang tips, aanbiedingen en nieuws over nieuwe producten direct in je inbox.</p>
-          <form class="newsletter-form" novalidate>
-            <label class="visually-hidden" for="shop-newsletter-email">E-mailadres</label>
-            <input class="newsletter-input" id="shop-newsletter-email" type="email" placeholder="jouw@email.nl" autocomplete="email" required>
-            <button class="newsletter-submit" type="submit">OK</button>
-          </form>
-          <p class="newsletter-note">Door je aan te melden ga je akkoord met onze <a href="#">privacyverklaring</a>.</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Pelletbaits. Alle rechten voorbehouden.</p>
-        <div class="footer-bottom-links">
-          <a href="#">Privacy</a>
-          <a href="#">Voorwaarden</a>
-          <a href="#">Cookies</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Mobile nav -->
-  <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
-    <div class="mobile-nav-header">
-      <a href="index.html" class="header-logo-wrap" aria-label="Pelletbaits">
-        <span class="header-logo-icon" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12c0 0-5-7-9-7s-9 7-9 7 5 7 9 7 9-7 9-7z"/>
-            <circle cx="12" cy="12" r="2.5"/>
-          </svg>
-        </span>
-        <span class="header-logo-text">PELLETBAITS</span>
-      </a>
-      <button class="cart-close-btn" id="mobile-nav-close" aria-label="Menu sluiten">&#x2715;</button>
-    </div>
-    <nav class="mobile-nav-links">
-      <a href="shop.html">Karper</a>
-      <a href="shop.html">Koi &amp; Vijver</a>
-      <a href="shop.html">Meerval</a>
-      <a href="shop.html">Witvis</a>
-      <a href="shop.html">Tools</a>
-      <a href="over-ons.html">Over Ons</a>
-      <a href="#">Contact</a>
+      <style>{`@media(max-width:980px){.navlinks{display:none!important}}`}</style>
     </nav>
-  </div>
+  );
+}
 
-  <!-- Cart drawer -->
-  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
-  <div class="cart-drawer" id="cart-drawer" role="dialog" aria-label="Winkelwagen" aria-hidden="true">
-    <div class="cart-drawer-header">
-      <p class="cart-drawer-title">Winkelwagen</p>
-      <button class="cart-close-btn" id="cart-drawer-close" aria-label="Winkelwagen sluiten">&#x2715;</button>
-    </div>
-    <div class="cart-items" id="cart-drawer-items">
-      <p class="cart-empty">Je winkelwagen is leeg.</p>
-    </div>
-    <div class="cart-footer">
-      <div class="cart-subtotal">
-        <span class="cart-subtotal-label">Subtotaal</span>
-        <span class="cart-subtotal-value" id="cart-subtotal-value">€0,00</span>
+/* ---------- HEADER ---------- */
+function Header(){
+  return (
+    <header style={{padding:'56px 0 40px',borderBottom:'1px solid var(--line)'}}>
+      <div className="container">
+        <div style={{display:'flex',alignItems:'center',gap:8,fontSize:11,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)',marginBottom:18}}>
+          <a href="index.html">Home</a>
+          <Icon.Arrow size={12}/>
+          <span>Shop</span>
+          <Icon.Arrow size={12}/>
+          <span style={{color:'var(--ink)'}}>Karper Pellets</span>
+        </div>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',gap:32,flexWrap:'wrap'}}>
+          <div style={{maxWidth:760}}>
+            <div className="eyebrow" style={{marginBottom:10}}>Categorie</div>
+            <h1 className="display" style={{fontSize:'clamp(56px,7vw,108px)',margin:0,paddingBottom:'.12em'}}>
+              Karper <span style={{color:'var(--gold)'}}>Pellets</span>
+            </h1>
+            <p style={{marginTop:28,maxWidth:560,fontSize:15,lineHeight:1.6,color:'var(--ink-2)',fontWeight:300}}>
+              Onze meest verkochte categorie. Pellets met hoge eiwitwaarde en lange waterstabiliteit — voor elke karpervissen.
+            </p>
+          </div>
+          <div style={{textAlign:'right'}}>
+            <div style={{display:'flex',alignItems:'center',gap:8,justifyContent:'flex-end'}}>
+              <div style={{display:'flex',gap:2,color:'var(--gold)'}}>
+                {[1,2,3,4,5].map(i=><Icon.Star key={i} filled={i<=4}/>)}
+              </div>
+              <span className="display" style={{fontSize:24}}>4.6<span style={{color:'var(--ink-3)',fontSize:14}}>/5</span></span>
+            </div>
+            <div style={{fontSize:11,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)',marginTop:6}}>24 producten · 4.821 reviews</div>
+          </div>
+        </div>
       </div>
-      <a href="#" class="btn-checkout">Afrekenen</a>
-    </div>
-  </div>
+    </header>
+  );
+}
 
-  <script src="./assets/theme.js" defer></script>
+/* ---------- FILTER GROUP ---------- */
+function FilterGroup({title,options,selected,onToggle}){
+  const [open,setOpen] = useState(true);
+  return (
+    <div style={{borderBottom:'1px solid var(--line)',padding:'20px 0'}}>
+      <button onClick={()=>setOpen(!open)} style={{display:'flex',justifyContent:'space-between',alignItems:'center',width:'100%',padding:0}}>
+        <span style={{fontSize:11,letterSpacing:'.22em',textTransform:'uppercase',color:'var(--ink)',fontWeight:600}}>{title}</span>
+        <Icon.Chev d={open?'up':'down'}/>
+      </button>
+      {open && (
+        <div style={{marginTop:14,display:'grid',gap:10}}>
+          {options.map(o=>{
+            const checked = selected.includes(o.value);
+            return (
+              <label key={o.value} style={{display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',fontSize:13,color: checked?'var(--ink)':'var(--ink-2)'}}>
+                <span style={{display:'flex',alignItems:'center',gap:10}}>
+                  <span style={{
+                    width:16,height:16,borderRadius:4,border: checked?'1px solid var(--accent)':'1px solid var(--line-2)',
+                    background: checked?'var(--accent)':'transparent',
+                    display:'inline-flex',alignItems:'center',justifyContent:'center',color:'#fff'
+                  }}>
+                    {checked && <Icon.Check/>}
+                  </span>
+                  <input type="checkbox" checked={checked} onChange={()=>onToggle(o.value)} style={{display:'none'}}/>
+                  {o.label}
+                </span>
+                <span style={{fontSize:11,color:'var(--ink-3)'}}>{o.count}</span>
+              </label>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------- SIDEBAR ---------- */
+function Sidebar({state,setState}){
+  const groups = {
+    species: {title:'Vissoort', options:[
+      {value:'karper',label:'Karper',count:24},{value:'meerval',label:'Meerval',count:8},
+      {value:'brasem',label:'Brasem',count:11},{value:'voorn',label:'Voorn / Winde',count:7},{value:'witvis',label:'Witvis algemeen',count:14}
+    ]},
+    diameter: {title:'Diameter', options:[
+      {value:'2mm',label:'2 mm',count:14},{value:'4mm',label:'4 mm',count:22},
+      {value:'6mm',label:'6 mm',count:18},{value:'8mm',label:'8 mm',count:12},{value:'10mm',label:'10 mm of groter',count:6}
+    ]},
+    weight: {title:'Verpakking', options:[
+      {value:'<1kg',label:'< 1 kg',count:8},{value:'1-5',label:'1 – 5 kg',count:14},
+      {value:'5-15',label:'5 – 15 kg',count:11},{value:'15+',label:'15 kg of meer',count:5}
+    ]},
+    props: {title:'Eigenschappen', options:[
+      {value:'protein',label:'Hoog eiwit',count:12},{value:'water',label:'Waterval',count:9},
+      {value:'natural',label:'Natuurlijk',count:14},{value:'bulk',label:'Bulk-deal',count:6}
+    ]}
+  };
+  const toggle = (key,v)=>{
+    setState(s=>({...s,[key]: s[key].includes(v) ? s[key].filter(x=>x!==v) : [...s[key],v]}));
+  };
+  const reset = ()=> setState({species:[],diameter:[],weight:[],props:[],min:0,max:140});
+  return (
+    <aside style={{position:'sticky',top:90,alignSelf:'start',height:'fit-content'}} className="sidebar">
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 0',borderBottom:'1px solid var(--line)'}}>
+        <span style={{display:'flex',alignItems:'center',gap:8,fontSize:13,letterSpacing:'.16em',textTransform:'uppercase',fontWeight:600}}><Icon.Filter/> Filters</span>
+        <button onClick={reset} style={{fontSize:11,letterSpacing:'.18em',textTransform:'uppercase',color:'var(--accent)'}}>Reset</button>
+      </div>
+      {Object.entries(groups).map(([k,g])=>(
+        <FilterGroup key={k} title={g.title} options={g.options} selected={state[k]} onToggle={(v)=>toggle(k,v)}/>
+      ))}
+      <div style={{borderBottom:'1px solid var(--line)',padding:'20px 0'}}>
+        <div style={{fontSize:11,letterSpacing:'.22em',textTransform:'uppercase',color:'var(--ink)',fontWeight:600,marginBottom:14}}>Prijs</div>
+        <div style={{display:'flex',gap:8,marginBottom:14}}>
+          <div style={{flex:1,border:'1px solid var(--line-2)',borderRadius:6,padding:'8px 10px'}}>
+            <div style={{fontSize:9,color:'var(--ink-3)',letterSpacing:'.14em'}}>€ 0</div>
+            <div style={{fontSize:13}}>€{state.min}</div>
+          </div>
+          <div style={{flex:1,border:'1px solid var(--line-2)',borderRadius:6,padding:'8px 10px'}}>
+            <div style={{fontSize:9,color:'var(--ink-3)',letterSpacing:'.14em'}}>€ 140</div>
+            <div style={{fontSize:13}}>€{state.max}</div>
+          </div>
+        </div>
+        <input type="range" min="0" max="140" value={state.max} onChange={e=>setState(s=>({...s,max:+e.target.value}))} style={{width:'100%'}}/>
+      </div>
+    </aside>
+  );
+}
+
+/* ---------- PROMO BANNER ---------- */
+function PromoBanner(){
+  return (
+    <div style={{
+      background:`linear-gradient(135deg, #2a4030 0%, #1d2e22 100%)`,
+      border:'1px solid rgba(233,185,74,.25)',
+      borderRadius:14,padding:'22px 26px',marginBottom:20,
+      display:'flex',justifyContent:'space-between',alignItems:'center',gap:24,flexWrap:'wrap'
+    }}>
+      <div>
+        <div style={{fontSize:10,letterSpacing:'.22em',textTransform:'uppercase',color:'var(--gold)',marginBottom:6}}>Aanbieding van de week</div>
+        <div className="display" style={{fontSize:'clamp(22px,2.4vw,30px)',color:'#fff'}}>15% korting op 15kg-zakken</div>
+        <div style={{fontSize:13,color:'rgba(255,255,255,.7)',marginTop:6}}>Bulk-voordeel voor pellets, lagere prijs per kg. T/m zondag.</div>
+      </div>
+      <button style={{display:'inline-flex',alignItems:'center',gap:10,padding:'12px 20px',borderRadius:999,background:'var(--gold)',color:'#0a0f0e',fontWeight:600,fontSize:12,letterSpacing:'.16em',textTransform:'uppercase'}}>
+        Shop bulk <Icon.Arrow/>
+      </button>
+    </div>
+  );
+}
+
+/* ---------- PRODUCT CARD ---------- */
+function ProductCard({p,onAdd,onOpen,view='grid'}){
+  const [hover,setHover] = useState(false);
+  const [size,setSize] = useState(p.sizes[Math.min(1,p.sizes.length-1)]);
+  const tagColor = {Bestseller:'#e9b94a',Nieuw:'var(--accent)',Populair:'#7ec9c6',Premium:'#e9b94a','Bulk-deal':'#c45a1c',Aanbieding:'#7ec9c6'}[p.tag];
+  return (
+    <article
+      onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
+      style={{
+        position:'relative',background:'var(--bg-2)',border:'1px solid var(--line)',borderRadius:14,
+        transition:'all .35s ease',transform:hover?'translateY(-4px)':'translateY(0)',
+        borderColor:hover?'var(--line-2)':'var(--line)',
+        display:'flex',flexDirection:'column'
+      }}>
+      {p.tag && (
+        <div style={{position:'absolute',top:14,left:14,zIndex:2,background:tagColor,color:'#0a0f0e',fontSize:10,letterSpacing:'.18em',padding:'5px 10px',borderRadius:4,fontWeight:700,textTransform:'uppercase'}}>{p.tag}</div>
+      )}
+      <button style={{position:'absolute',top:14,right:14,zIndex:2,width:32,height:32,borderRadius:'50%',border:'1px solid var(--line-2)',background:'rgba(10,15,14,.5)',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',justifyContent:'center'}}><Icon.Heart/></button>
+
+      <button onClick={()=>onOpen(p.id)} style={{position:'relative',aspectRatio:'1/1',background:'linear-gradient(180deg,#0d1413 0%,#0a0f0e 100%)',borderRadius:'14px 14px 0 0',overflow:'hidden',display:'block',width:'100%',padding:0}}>
+        <div style={{position:'absolute',inset:0,padding:'30px 40px',transition:'transform .5s',transform:hover?'translateY(-4px)':'translateY(0)'}}>
+          <BagMockup color={p.color} label={p.name} sub={p.sub.toUpperCase()} size={p.sizes[Math.min(1,p.sizes.length-1)]} diameter={p.diameters[Math.min(2,p.diameters.length-1)]} accent={p.accent}/>
+        </div>
+      </button>
+
+      <div style={{padding:'18px 18px 20px',flex:1,display:'flex',flexDirection:'column'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',gap:10}}>
+          <div style={{fontSize:10,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)'}}>{p.type}</div>
+          <div style={{display:'flex',alignItems:'center',gap:4,color:'var(--gold)',fontSize:11}}>
+            <Icon.Star/> <span style={{color:'var(--ink-2)'}}>{p.rating} <span style={{color:'var(--ink-3)'}}>({p.reviews})</span></span>
+          </div>
+        </div>
+        <div className="display" style={{fontSize:22,marginTop:6,color:'var(--accent)'}}>{p.name}</div>
+        <div style={{fontSize:12,color:'var(--ink-2)',marginTop:2}}>{p.sub}</div>
+
+        <div style={{display:'flex',gap:6,marginTop:14}}>
+          {p.diameters.slice(0,4).map(d=>(
+            <span key={d} style={{fontSize:10,letterSpacing:'.14em',padding:'4px 8px',border:'1px solid var(--line-2)',borderRadius:4,color:'var(--ink-2)',textTransform:'uppercase'}}>{d}</span>
+          ))}
+        </div>
+
+        <div style={{display:'flex',gap:6,marginTop:10}}>
+          {p.sizes.map(s=>(
+            <button key={s} onClick={()=>setSize(s)} style={{
+              flex:1,padding:'8px 10px',borderRadius:6,fontSize:12,fontWeight:600,letterSpacing:'.06em',
+              background: size===s?'#0a0f0e':'transparent',
+              color: size===s?'#fff':'var(--ink-2)',
+              border: size===s?'1px solid #0a0f0e':'1px solid var(--line-2)',
+            }}>{s}</button>
+          ))}
+        </div>
+
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'auto',paddingTop:16}}>
+          <div>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span className="display" style={{fontSize:22,color:'var(--ink)'}}>€{(p.salePrice||p.price).toFixed(2).replace('.',',')}</span>
+              {p.salePrice && <span style={{fontSize:12,color:'var(--ink-3)',textDecoration:'line-through'}}>€{p.price.toFixed(2).replace('.',',')}</span>}
+            </div>
+            {p.salePrice && <div style={{fontSize:10,color:'var(--accent)',letterSpacing:'.14em',textTransform:'uppercase',marginTop:2}}>Bespaar €{(p.price-p.salePrice).toFixed(2).replace('.',',')}</div>}
+          </div>
+          <button onClick={()=>onAdd({...p,price:p.salePrice||p.price,size})} style={{
+            width:38,height:38,borderRadius:'50%',background:'var(--accent)',color:'#fff',display:'inline-flex',alignItems:'center',justifyContent:'center',
+            transition:'transform .25s',transform:hover?'scale(1.08)':'scale(1)',
+            boxShadow:'0 6px 20px rgba(214,52,47,.35)'
+          }}><Icon.Arrow/></button>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/* ---------- TOOLBAR ---------- */
+function Toolbar({sort,setSort,view,setView,count}){
+  return (
+    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'14px 18px',background:'var(--bg-2)',border:'1px solid var(--line)',borderRadius:10,marginBottom:20,flexWrap:'wrap',gap:14}}>
+      <div style={{fontSize:13,color:'var(--ink-2)'}}>{count} resultaten</div>
+      <div style={{display:'flex',alignItems:'center',gap:10}}>
+        <select value={sort} onChange={e=>setSort(e.target.value)} style={{
+          background:'var(--bg-3)',color:'var(--ink)',border:'1px solid var(--line-2)',borderRadius:6,padding:'8px 28px 8px 12px',fontSize:13,fontFamily:'inherit',
+          appearance:'none',backgroundImage:'url("data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%2210%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>")',
+          backgroundRepeat:'no-repeat',backgroundPosition:'right 10px center'
+        }}>
+          <option>Populariteit</option>
+          <option>Prijs: laag → hoog</option>
+          <option>Prijs: hoog → laag</option>
+          <option>Best beoordeeld</option>
+          <option>Nieuw</option>
+        </select>
+        <div style={{display:'flex',gap:0,border:'1px solid var(--line-2)',borderRadius:6,overflow:'hidden'}}>
+          <button onClick={()=>setView('grid')} style={{padding:'8px 10px',background:view==='grid'?'#0a0f0e':'transparent',color:view==='grid'?'#fff':'var(--ink-2)'}}><Icon.Grid/></button>
+          <button onClick={()=>setView('list')} style={{padding:'8px 10px',background:view==='list'?'#0a0f0e':'transparent',color:view==='list'?'#fff':'var(--ink-2)'}}><Icon.List/></button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- PAGINATION ---------- */
+function Pagination(){
+  const [page,setPage] = useState(1);
+  return (
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',gap:6,marginTop:48}}>
+      <button style={{width:38,height:38,borderRadius:'50%',border:'1px solid var(--line-2)',display:'inline-flex',alignItems:'center',justifyContent:'center',color:'var(--ink-3)'}}><Icon.Arrow d="left"/></button>
+      {[1,2,3,4,5].map(n=>(
+        <button key={n} onClick={()=>setPage(n)} style={{
+          width:38,height:38,borderRadius:'50%',
+          background: page===n?'var(--accent)':'transparent',
+          color: page===n?'#fff':'var(--ink-2)',
+          border: page===n?'1px solid var(--accent)':'1px solid var(--line-2)',
+          fontWeight:600,fontSize:13
+        }}>{n}</button>
+      ))}
+      <span style={{color:'var(--ink-3)',padding:'0 8px'}}>…</span>
+      <button style={{width:38,height:38,borderRadius:'50%',border:'1px solid var(--line-2)',color:'var(--ink-2)',fontSize:13,fontWeight:600}}>10</button>
+      <button style={{width:38,height:38,borderRadius:'50%',border:'1px solid var(--line-2)',display:'inline-flex',alignItems:'center',justifyContent:'center'}}><Icon.Arrow/></button>
+    </div>
+  );
+}
+
+/* ---------- SHOP GRID ---------- */
+function ShopGrid({onAdd,onOpen}){
+  const [filters,setFilters] = useState({species:[],diameter:[],weight:[],props:[],min:0,max:140});
+  const [sort,setSort] = useState('Populariteit');
+  const [view,setView] = useState('grid');
+  return (
+    <section style={{padding:'40px 0 80px'}}>
+      <div className="container">
+        <div style={{display:'grid',gridTemplateColumns:'240px 1fr',gap:40}} className="shop-grid">
+          <Sidebar state={filters} setState={setFilters}/>
+          <div>
+            <Toolbar sort={sort} setSort={setSort} view={view} setView={setView} count={PRODUCTS.length}/>
+            <PromoBanner/>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16}} className="prod-grid">
+              {PRODUCTS.map(p=>(
+                <ProductCard key={p.id} p={p} onAdd={onAdd} onOpen={onOpen}/>
+              ))}
+            </div>
+            <Pagination/>
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @media(max-width:1100px){.prod-grid{grid-template-columns:1fr 1fr!important}}
+        @media(max-width:900px){.shop-grid{grid-template-columns:1fr!important}.sidebar{position:static!important}}
+        @media(max-width:600px){.prod-grid{grid-template-columns:1fr!important}}
+      `}</style>
+    </section>
+  );
+}
+
+/* ---------- PRODUCT DETAIL ---------- */
+function ProductDetail({pid,onClose,onAdd}){
+  const p = PRODUCTS.find(x=>x.id===pid) || PRODUCTS[0];
+  const [diameter,setDiameter] = useState(p.diameters[Math.min(2,p.diameters.length-1)]);
+  const [size,setSize] = useState(p.sizes[Math.min(1,p.sizes.length-1)]);
+  const [qty,setQty] = useState(1);
+  const [view,setView] = useState(0);
+  const [accord,setAccord] = useState('ingr');
+  const sizePrice = {[p.sizes[0]]:9.95, [p.sizes[Math.min(1,p.sizes.length-1)]]:p.salePrice||p.price, [p.sizes[p.sizes.length-1]]:(p.salePrice||p.price)*2.5};
+  const recs = PRODUCTS.filter(x=>x.id!==p.id).slice(0,4);
+  return (
+    <div style={{position:'fixed',inset:0,zIndex:80,background:'var(--bg)',overflowY:'auto'}}>
+      <div style={{position:'sticky',top:0,zIndex:5,padding:'16px 0',background:'rgba(10,15,14,.92)',backdropFilter:'blur(14px)',borderBottom:'1px solid var(--line)'}}>
+        <div className="container" style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <button onClick={onClose} style={{display:'flex',alignItems:'center',gap:10,fontSize:12,letterSpacing:'.18em',textTransform:'uppercase',color:'var(--ink-2)'}}>
+            <Icon.Arrow d="left"/> Terug naar Karper Pellets
+          </button>
+          <div style={{display:'flex',alignItems:'center',gap:8,fontSize:11,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)'}}>
+            <span>Shop</span><Icon.Arrow size={12}/><span>Karper Pellets</span><Icon.Arrow size={12}/><span style={{color:'var(--ink)'}}>{p.name}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="container" style={{padding:'40px 0 80px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:60}} className="pdp-grid">
+          <div style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:16}} className="pdp-gallery">
+            <div style={{display:'flex',flexDirection:'column',gap:10}}>
+              {[0,1,2,3].map(i=>(
+                <button key={i} onClick={()=>setView(i)} style={{
+                  aspectRatio:'1/1',width:'100%',borderRadius:8,
+                  background:'linear-gradient(180deg,#0d1413,#0a0f0e)',
+                  border: view===i?'1px solid var(--accent)':'1px solid var(--line-2)',
+                  padding:8,
+                }}>
+                  <BagMockup color={p.color} label={p.name} sub={p.sub.toUpperCase()} size={size} diameter={diameter} accent={p.accent}/>
+                </button>
+              ))}
+            </div>
+            <div style={{position:'sticky',top:90,height:'fit-content'}}>
+              <div style={{position:'relative',aspectRatio:'1/1',borderRadius:14,background:'linear-gradient(180deg,#0d1413 0%,#0a0f0e 100%)',padding:60}}>
+                <div style={{position:'absolute',top:16,left:16,padding:'6px 12px',borderRadius:999,background:'rgba(0,0,0,.6)',backdropFilter:'blur(8px)',border:'1px solid var(--line-2)',fontSize:10,letterSpacing:'.2em',textTransform:'uppercase'}}>Op voorraad · 247 stuks</div>
+                <BagMockup color={p.color} label={p.name} sub={p.sub.toUpperCase()} size={size} diameter={diameter} accent={p.accent}/>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap',marginBottom:14}}>
+              {[p.tag,'Hoog eiwit','Karper Pellets'].filter(Boolean).map(t=>(
+                <span key={t} style={{fontSize:10,letterSpacing:'.18em',padding:'5px 10px',border:'1px solid var(--line-2)',borderRadius:4,textTransform:'uppercase',color:'var(--ink-2)'}}>{t}</span>
+              ))}
+            </div>
+            <h1 className="display" style={{fontSize:'clamp(48px,5.6vw,80px)',margin:0,color:'var(--accent)'}}>{p.name}</h1>
+            <div style={{fontSize:14,color:'var(--ink-2)',marginTop:6}}>{p.sub}</div>
+            <div style={{display:'flex',alignItems:'center',gap:12,marginTop:14}}>
+              <div style={{display:'flex',gap:2,color:'var(--gold)'}}>{[1,2,3,4,5].map(i=><Icon.Star key={i} filled={i<=Math.round(p.rating)}/>)}</div>
+              <span style={{fontSize:13,color:'var(--ink-2)'}}>{p.rating} · {p.reviews} reviews</span>
+              <a href="#" style={{fontSize:13,color:'var(--accent)'}}>Schrijf review</a>
+            </div>
+            <p style={{marginTop:20,maxWidth:520,fontSize:15,lineHeight:1.6,color:'var(--ink-2)',fontWeight:300}}>
+              Onze meest verkochte karperpellet. Hoge proteïnewaarde, sterke geur, perfecte stabiliteit in water.
+            </p>
+
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10,marginTop:24}}>
+              {[
+                {Icon:Icon.Drop,label:'Hoog eiwit',val:'38%'},
+                {Icon:Icon.Ruler,label:'Waterval',val:'4 uur'},
+                {Icon:Icon.Box,label:'Aanbieding',val:'Bulk'},
+              ].map(s=>(
+                <div key={s.label} style={{padding:14,border:'1px solid var(--line-2)',borderRadius:10,background:'var(--bg-2)'}}>
+                  <s.Icon/>
+                  <div className="display" style={{fontSize:18,marginTop:8}}>{s.val}</div>
+                  <div style={{fontSize:10,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)',marginTop:4}}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{marginTop:28}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:10}}>
+                <span style={{fontSize:13}}>Diameter: <span style={{color:'var(--ink-2)'}}>{diameter}</span></span>
+                <a href="#" style={{fontSize:11,letterSpacing:'.18em',textTransform:'uppercase',color:'var(--ink-3)'}}>Maattabel</a>
+              </div>
+              <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                {p.diameters.map(d=>(
+                  <button key={d} onClick={()=>setDiameter(d)} style={{
+                    padding:'10px 16px',borderRadius:8,fontSize:13,fontWeight:600,
+                    background: diameter===d?'#0a0f0e':'transparent',
+                    color: diameter===d?'#fff':'var(--ink-2)',
+                    border: diameter===d?'1px solid #0a0f0e':'1px solid var(--line-2)',
+                  }}>{d}</button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{marginTop:24}}>
+              <div style={{fontSize:13,marginBottom:10}}>Inhoud: <span style={{color:'var(--ink-2)'}}>{size}</span></div>
+              <div style={{display:'grid',gap:8}}>
+                {p.sizes.map((s,i)=>{
+                  const price = sizePrice[s] || (p.salePrice||p.price);
+                  const isPop = i===Math.min(1,p.sizes.length-1);
+                  return (
+                    <button key={s} onClick={()=>setSize(s)} style={{
+                      display:'flex',justifyContent:'space-between',alignItems:'center',
+                      padding:'14px 16px',borderRadius:10,
+                      background: size===s?'rgba(214,52,47,.06)':'transparent',
+                      border: size===s?'1px solid var(--accent)':'1px solid var(--line-2)',
+                    }}>
+                      <span style={{display:'flex',alignItems:'center',gap:12}}>
+                        <span style={{
+                          width:18,height:18,borderRadius:'50%',
+                          border: size===s?'5px solid var(--accent)':'1px solid var(--line-2)',
+                        }}/>
+                        <span style={{fontSize:14,fontWeight:500}}>{s}</span>
+                        {isPop && <span style={{fontSize:9,letterSpacing:'.18em',padding:'3px 8px',borderRadius:4,background:'var(--gold)',color:'#0a0f0e',textTransform:'uppercase',fontWeight:700}}>Populair</span>}
+                        {i===p.sizes.length-1 && <span style={{fontSize:9,letterSpacing:'.18em',padding:'3px 8px',borderRadius:4,background:'var(--accent)',color:'#fff',textTransform:'uppercase',fontWeight:700}}>Bespaar €13,00</span>}
+                      </span>
+                      <span className="display" style={{fontSize:18}}>€{price.toFixed(2).replace('.',',')}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div style={{marginTop:28,padding:24,borderRadius:14,background:'var(--bg-2)',border:'1px solid var(--line)'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',gap:20,flexWrap:'wrap'}}>
+                <div>
+                  <div className="display" style={{fontSize:42,color:'var(--ink)'}}>€{((p.salePrice||p.price)*qty).toFixed(2).replace('.',',')}</div>
+                  <div style={{fontSize:12,color:'var(--ink-3)',marginTop:4}}>incl. BTW · {size} · {diameter}</div>
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:0,border:'1px solid var(--line-2)',borderRadius:999,padding:4}}>
+                  <button onClick={()=>setQty(Math.max(1,qty-1))} style={{width:32,height:32,borderRadius:'50%',display:'inline-flex',alignItems:'center',justifyContent:'center'}}><Icon.Minus/></button>
+                  <span style={{padding:'0 16px',fontWeight:600}}>{qty}</span>
+                  <button onClick={()=>setQty(qty+1)} style={{width:32,height:32,borderRadius:'50%',display:'inline-flex',alignItems:'center',justifyContent:'center'}}><Icon.Plus/></button>
+                </div>
+              </div>
+              <button onClick={()=>onAdd({...p,price:p.salePrice||p.price,size,diameter,qty})} style={{
+                width:'100%',marginTop:18,padding:'18px',borderRadius:999,background:'var(--accent)',color:'#fff',fontWeight:700,fontSize:13,letterSpacing:'.18em',textTransform:'uppercase',
+                boxShadow:'0 14px 40px rgba(214,52,47,.35)',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:12
+              }}>In winkelmandje · €{((p.salePrice||p.price)*qty).toFixed(2).replace('.',',')} <Icon.Arrow/></button>
+              <div style={{display:'flex',justifyContent:'space-between',marginTop:14,fontSize:11,color:'var(--ink-2)',letterSpacing:'.1em',textTransform:'uppercase'}}>
+                <span style={{display:'flex',alignItems:'center',gap:8}}><Icon.Truck/> Voor 23:00 — morgen in huis</span>
+                <span style={{display:'flex',alignItems:'center',gap:8}}><Icon.Box/> 14 dagen retour</span>
+              </div>
+              <div style={{display:'flex',gap:8,marginTop:14,opacity:.7}}>
+                {['iDEAL','Bancontact','Visa','Mastercard','Klarna'].map(m=>(
+                  <span key={m} style={{fontSize:10,padding:'4px 8px',border:'1px solid var(--line-2)',borderRadius:4,letterSpacing:'.1em'}}>{m}</span>
+                ))}
+              </div>
+            </div>
+
+            <div style={{marginTop:28}}>
+              {[
+                {key:'ingr',title:'Ingrediënten',body:'Vismeel, halibut, larve, soja, lecithine, betaïne, vitamine B-complex.'},
+                {key:'use',title:'Hoe te gebruiken',body:'Voer 200–500g per sessie. Combineer met PVA-zakjes voor maximaal effect.'},
+                {key:'spec',title:'Doelvis',body:'Karper, brasem, meerval. Geschikt voor stilstaand en stromend water.'},
+                {key:'ship',title:'Verzending & retour',body:'Gratis verzending vanaf €45. Retour binnen 14 dagen.'}
+              ].map(a=>(
+                <div key={a.key} style={{borderTop:'1px solid var(--line)'}}>
+                  <button onClick={()=>setAccord(accord===a.key?null:a.key)} style={{display:'flex',justifyContent:'space-between',alignItems:'center',width:'100%',padding:'18px 0',fontSize:14,fontWeight:500}}>
+                    {a.title} <Icon.Chev d={accord===a.key?'up':'down'}/>
+                  </button>
+                  {accord===a.key && <div style={{paddingBottom:18,fontSize:14,color:'var(--ink-2)',lineHeight:1.6}}>{a.body}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div style={{marginTop:100}}>
+          <h2 className="display" style={{fontSize:'clamp(36px,4vw,56px)',color:'var(--accent)',marginBottom:32}}>Vissers kochten ook</h2>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16}} className="rec-grid">
+            {recs.map(r=>(
+              <ProductCard key={r.id} p={r} onAdd={(x)=>onAdd(x)} onOpen={()=>{}}/>
+            ))}
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @media(max-width:980px){.pdp-grid{grid-template-columns:1fr!important;gap:40px!important}}
+        @media(max-width:520px){.pdp-gallery{grid-template-columns:60px 1fr!important}}
+        @media(max-width:1100px){.rec-grid{grid-template-columns:1fr 1fr!important}}
+        @media(max-width:560px){.rec-grid{grid-template-columns:1fr!important}}
+      `}</style>
+    </div>
+  );
+}
+
+/* ---------- CART DRAWER ---------- */
+function Cart({open,onClose,items,onRemove}){
+  const total = items.reduce((s,i)=>s+i.price*(i.qty||1),0);
+  return (
+    <>
+      <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:90,background:'rgba(0,0,0,.6)',opacity:open?1:0,pointerEvents:open?'auto':'none',transition:'opacity .3s'}}/>
+      <aside style={{position:'fixed',top:0,right:0,bottom:0,width:'min(420px,92vw)',zIndex:91,background:'var(--bg-2)',borderLeft:'1px solid var(--line-2)',transform:open?'translateX(0)':'translateX(100%)',transition:'transform .35s ease',display:'flex',flexDirection:'column'}}>
+        <div style={{padding:'24px',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'1px solid var(--line)'}}>
+          <div className="display" style={{fontSize:24}}>Winkelmandje</div>
+          <button onClick={onClose} style={{width:36,height:36,borderRadius:'50%',border:'1px solid var(--line-2)'}}>×</button>
+        </div>
+        <div style={{flex:1,overflowY:'auto',padding:24,display:'grid',gap:14}}>
+          {items.length===0 && <div style={{textAlign:'center',padding:'60px 0',color:'var(--ink-3)'}}>Mandje is leeg.</div>}
+          {items.map(i=>(
+            <div key={i.id+i.size} style={{display:'grid',gridTemplateColumns:'72px 1fr auto',gap:14,padding:14,border:'1px solid var(--line)',borderRadius:12}}>
+              <div style={{width:72,height:72,borderRadius:8,padding:6,background:'linear-gradient(180deg,#0d1413,#0a0f0e)'}}><BagMockup color={i.color} label={i.name} sub={i.sub?.toUpperCase()||''} size={i.size||'5kg'} diameter={i.diameter||'6mm'} accent={i.accent}/></div>
+              <div>
+                <div style={{fontSize:10,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)'}}>{i.type}</div>
+                <div className="display" style={{fontSize:18,marginTop:2,color:'var(--accent)'}}>{i.name}</div>
+                <div style={{fontSize:11,color:'var(--ink-2)',marginTop:4}}>{i.size} · qty {i.qty||1}</div>
+              </div>
+              <div style={{textAlign:'right'}}>
+                <div className="display" style={{fontSize:18}}>€{(i.price*(i.qty||1)).toFixed(2).replace('.',',')}</div>
+                <button onClick={()=>onRemove(i.id+i.size)} style={{fontSize:11,color:'var(--ink-3)',marginTop:6,textDecoration:'underline'}}>Verwijder</button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{padding:24,borderTop:'1px solid var(--line)'}}>
+          <div style={{display:'flex',justifyContent:'space-between',marginBottom:14}}><span style={{color:'var(--ink-2)'}}>Subtotaal</span><span className="display" style={{fontSize:24}}>€{total.toFixed(2).replace('.',',')}</span></div>
+          <button style={{width:'100%',padding:16,borderRadius:999,background:'var(--accent)',color:'#fff',fontWeight:700,fontSize:13,letterSpacing:'.16em',textTransform:'uppercase'}}>Afrekenen · €{total.toFixed(2).replace('.',',')}</button>
+        </div>
+      </aside>
+    </>
+  );
+}
+
+/* ---------- APP ---------- */
+function App(){
+  const [cart,setCart] = useState([]);
+  const [cartOpen,setCartOpen] = useState(false);
+  const [pdp,setPdp] = useState(null);
+
+  const add = (p)=>{
+    const key = p.id+(p.size||'');
+    setCart(prev=>{
+      const ex = prev.find(x=>(x.id+x.size)===key);
+      if(ex) return prev.map(x=>(x.id+x.size)===key?{...x,qty:(x.qty||1)+(p.qty||1)}:x);
+      return [...prev,{...p,qty:p.qty||1}];
+    });
+    setCartOpen(true);
+  };
+  const remove = (key)=>setCart(prev=>prev.filter(x=>(x.id+x.size)!==key));
+  const totalQty = cart.reduce((s,i)=>s+(i.qty||1),0);
+
+  return (
+    <>
+      <Nav cartCount={totalQty} onCart={()=>setCartOpen(true)}/>
+      <Header/>
+      <ShopGrid onAdd={add} onOpen={(id)=>{setPdp(id);window.scrollTo(0,0)}}/>
+      {pdp && <ProductDetail pid={pdp} onClose={()=>setPdp(null)} onAdd={add}/>}
+      <Cart open={cartOpen} onClose={()=>setCartOpen(false)} items={cart} onRemove={remove}/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
 </body>
 </html>
