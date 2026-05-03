@@ -29,7 +29,24 @@
   input[type=checkbox]{accent-color:var(--accent)}
   input[type=range]{accent-color:var(--accent)}
   @media(max-width:720px){.container{padding:0 20px}}
+  html[data-theme="light"]{
+    --bg:#f5f2ec;--bg-2:#ebe8e1;--bg-3:#e0ddd5;
+    --ink:#0d1412;--ink-2:#3e4e48;--ink-3:#7a8a84;
+    --line:rgba(0,0,0,.09);--line-2:rgba(0,0,0,.15);
+    --deep:#d4d1ca;
+  }
+  html.theme-transition *,html.theme-transition *::before,html.theme-transition *::after{
+    transition:background-color .28s ease,color .28s ease,border-color .28s ease!important
+  }
+  .shop-theme-toggle{position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);background:transparent;cursor:pointer;color:var(--ink);flex-shrink:0;transition:border-color 140ms ease,background 140ms ease}
+  .shop-theme-toggle:hover{background:rgba(128,128,128,.1)}
+  .shop-ti{position:absolute;display:flex;align-items:center;justify-content:center;transition:opacity .22s ease,transform .22s ease}
+  .shop-ti-moon{opacity:1;transform:rotate(0deg) scale(1)}
+  .shop-ti-sun{opacity:0;transform:rotate(-90deg) scale(.5)}
+  html[data-theme="light"] .shop-ti-moon{opacity:0;transform:rotate(90deg) scale(.5)}
+  html[data-theme="light"] .shop-ti-sun{opacity:1;transform:rotate(0deg) scale(1)}
 </style>
+<script>(function(){var t=localStorage.getItem('pb-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}());</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
@@ -58,6 +75,8 @@ const Icon = {
   Chev:({d='down'})=>{const r={down:0,up:180}[d];return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{transform:`rotate(${r}deg)`}}><path d="M6 9l6 6 6-6"/></svg>},
   Check:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12l5 5 9-11"/></svg>),
   Drop:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 3c4 5 7 8 7 12a7 7 0 1 1-14 0c0-4 3-7 7-12z"/></svg>),
+  Moon:()=>(<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>),
+  Sun:()=>(<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>),
   Ruler:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="8" width="20" height="8"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg>),
   Weight:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 7h14l-2 14H7L5 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>),
 };
@@ -112,16 +131,20 @@ const PRODUCTS = [
 ];
 
 /* ---------- NAV ---------- */
-function Nav({cartCount,onCart}){
+function Nav({cartCount,onCart,darkMode,onToggleTheme}){
+  const navBg   = darkMode ? 'rgba(10,15,14,.92)' : 'rgba(245,242,236,.93)';
+  const linkClr = darkMode ? 'rgba(255,255,255,.85)' : 'rgba(13,20,18,.8)';
+  const cartBg  = darkMode ? '#fff' : '#0d1412';
+  const cartClr = darkMode ? '#0a0f0e' : '#f5f2ec';
   return (
-    <nav style={{position:'sticky',top:0,zIndex:50,padding:'16px 0',background:'rgba(10,15,14,.92)',backdropFilter:'blur(14px)',borderBottom:'1px solid var(--line)'}}>
+    <nav style={{position:'sticky',top:0,zIndex:50,padding:'16px 0',background:navBg,backdropFilter:'blur(14px)',borderBottom:'1px solid var(--line)'}}>
       <div className="container" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:24}}>
         <a href="index.html" style={{display:'flex',alignItems:'center',gap:10}}>
           <span style={{display:'inline-flex',alignItems:'center',justifyContent:'center',width:34,height:34,border:'1px solid var(--line-2)',borderRadius:'50%'}}><Icon.Logo/></span>
-          <span style={{fontFamily:'Barlow Condensed',fontWeight:800,fontSize:18,letterSpacing:'.18em'}}>PELLETBAITS</span>
+          <span style={{fontFamily:'Barlow Condensed',fontWeight:800,fontSize:18,letterSpacing:'.18em',color:'var(--ink)'}}>PELLETBAITS</span>
         </a>
-        <div className="navlinks" style={{display:'flex',gap:32,fontSize:13,letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(255,255,255,.85)'}}>
-          <a href="shop.html" style={{color:'#fff'}}>Shop</a>
+        <div className="navlinks" style={{display:'flex',gap:32,fontSize:13,letterSpacing:'.12em',textTransform:'uppercase',color:linkClr}}>
+          <a href="shop.html" style={{color:'var(--accent)'}}>Shop</a>
           <a href="shop.html">Karper Pellets</a>
           <a href="shop.html">Hookbaits</a>
           <a href="shop.html">Liquids</a>
@@ -129,8 +152,12 @@ function Nav({cartCount,onCart}){
           <a href="index.html">Home</a>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:14}}>
-          <button style={{display:'flex',alignItems:'center',justifyContent:'center',width:34,height:34,borderRadius:'50%',border:'1px solid var(--line-2)'}}><Icon.Search/></button>
-          <button onClick={onCart} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 14px 8px 12px',borderRadius:999,background:'#fff',color:'#0a0f0e',fontWeight:600,fontSize:12,letterSpacing:'.14em',textTransform:'uppercase'}}>
+          <button onClick={onToggleTheme} className="shop-theme-toggle" aria-label="Schakel thema">
+            <span className="shop-ti shop-ti-moon"><Icon.Moon/></span>
+            <span className="shop-ti shop-ti-sun"><Icon.Sun/></span>
+          </button>
+          <button style={{display:'flex',alignItems:'center',justifyContent:'center',width:34,height:34,borderRadius:'50%',border:'1px solid var(--line-2)',color:'var(--ink)'}}><Icon.Search/></button>
+          <button onClick={onCart} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 14px 8px 12px',borderRadius:999,background:cartBg,color:cartClr,fontWeight:600,fontSize:12,letterSpacing:'.14em',textTransform:'uppercase'}}>
             <Icon.Bag/> Cart · {cartCount}
           </button>
         </div>
@@ -664,6 +691,24 @@ function App(){
   const [cart,setCart] = useState([]);
   const [cartOpen,setCartOpen] = useState(false);
   const [pdp,setPdp] = useState(null);
+  const [darkMode,setDarkMode] = useState(()=>localStorage.getItem('pb-theme')!=='light');
+  const mounted = React.useRef(false);
+
+  useEffect(()=>{
+    const html = document.documentElement;
+    if(mounted.current){
+      html.classList.add('theme-transition');
+      setTimeout(()=>html.classList.remove('theme-transition'),320);
+    }
+    mounted.current = true;
+    if(darkMode){
+      html.removeAttribute('data-theme');
+      localStorage.removeItem('pb-theme');
+    } else {
+      html.setAttribute('data-theme','light');
+      localStorage.setItem('pb-theme','light');
+    }
+  },[darkMode]);
 
   const add = (p)=>{
     const key = p.id+(p.size||'');
@@ -679,7 +724,7 @@ function App(){
 
   return (
     <>
-      <Nav cartCount={totalQty} onCart={()=>setCartOpen(true)}/>
+      <Nav cartCount={totalQty} onCart={()=>setCartOpen(true)} darkMode={darkMode} onToggleTheme={()=>setDarkMode(d=>!d)}/>
       <Header/>
       <ShopGrid onAdd={add} onOpen={(id)=>{setPdp(id);window.scrollTo(0,0)}}/>
       {pdp && <ProductDetail pid={pdp} onClose={()=>setPdp(null)} onAdd={add}/>}

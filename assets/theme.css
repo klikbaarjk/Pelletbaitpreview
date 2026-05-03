@@ -21,6 +21,10 @@
   --font-display: 'Barlow Condensed', system-ui, sans-serif;
   --font-body:    'Inter', system-ui, sans-serif;
 
+  /* Inverted button tokens (white btn in dark mode → dark btn in light mode) */
+  --inv-bg:    #ffffff;
+  --inv-color: #0a0f0e;
+
   --container-max: 1440px;
   --container-pad: 32px;
   --radius-sm: 4px;
@@ -1426,3 +1430,122 @@ input, select { font: inherit; }
 @media(prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* =====================================================
+   LIGHT MODE
+   ===================================================== */
+
+/* Smooth transition class — injected by JS during toggle */
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color .28s ease,
+    color .28s ease,
+    border-color .28s ease !important;
+}
+
+/* Variable overrides */
+html[data-theme="light"] {
+  --bg:       #f5f2ec;
+  --bg-2:     #ebe8e1;
+  --bg-3:     #e0ddd5;
+  --ink:      #0d1412;
+  --ink-2:    #3e4e48;
+  --ink-3:    #7a8a84;
+  --line:     rgba(0,0,0,.09);
+  --line-2:   rgba(0,0,0,.15);
+  --deep:     #d4d1ca;
+  --moss:     #2a5444;
+  --inv-bg:   #0d1412;
+  --inv-color: #f5f2ec;
+}
+
+/* Header */
+html[data-theme="light"] .site-header.scrolled {
+  background: rgba(245,242,236,.93);
+}
+html[data-theme="light"] .header-nav {
+  color: rgba(13,20,18,.8);
+}
+html[data-theme="light"] .header-cart-btn {
+  background: var(--ink);
+  color: var(--bg);
+}
+html[data-theme="light"] .header-cart-btn:hover { background: var(--ink-2); }
+html[data-theme="light"] .header-search-btn:hover { background: rgba(0,0,0,.05); }
+html[data-theme="light"] .mobile-menu-btn {
+  border-color: rgba(0,0,0,.14);
+  color: var(--ink);
+}
+html[data-theme="light"] .mobile-menu-btn:hover { border-color: rgba(0,0,0,.3); }
+
+/* Hero card (floats over dark photo — only fix badge/button text) */
+html[data-theme="light"] .hero-card-price { color: #0a0f0e; }
+html[data-theme="light"] .hero-card-add   { background: var(--inv-bg); color: var(--inv-color); }
+html[data-theme="light"] .hero-card-add:hover { background: #1e2b28; }
+
+/* Product cards */
+html[data-theme="light"] .product-card-num { color: rgba(0,0,0,.4); }
+html[data-theme="light"] .product-card-add { background: var(--ink); color: var(--bg); }
+
+/* Nav arrow buttons */
+html[data-theme="light"] .nav-arrow-btn:hover { border-color: rgba(0,0,0,.4); }
+html[data-theme="light"] .nav-arrow-btn.filled { background: var(--ink); color: var(--bg); }
+html[data-theme="light"] .nav-arrow-btn.filled:hover { background: var(--ink-2); }
+
+/* Category arrows */
+html[data-theme="light"] .cat-item-arrow { color: var(--ink-3); }
+html[data-theme="light"] .cat-item.active .cat-item-arrow { color: #fff; }
+
+/* Feature section */
+html[data-theme="light"] .feat-cta:hover {
+  border-color: rgba(0,0,0,.35);
+  background: rgba(0,0,0,.04);
+}
+
+/* Variant pills */
+html[data-theme="light"] .variant-pill:hover { border-color: rgba(0,0,0,.35); color: var(--ink); }
+
+/* Qty controls */
+html[data-theme="light"] .qty-btn:hover { background: var(--bg-3); color: var(--ink); }
+
+/* Cart drawer */
+html[data-theme="light"] .cart-close-btn:hover { border-color: rgba(0,0,0,.4); }
+
+/* Footer */
+html[data-theme="light"] .site-footer { background: var(--bg-3); }
+html[data-theme="light"] .newsletter-submit { background: var(--ink); color: var(--bg); }
+html[data-theme="light"] .newsletter-submit:hover { background: var(--ink-2); }
+
+/* ---- Theme toggle button ---- */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+.theme-toggle-btn:hover { background: rgba(128,128,128,.1); }
+
+.theme-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .22s ease, transform .22s ease;
+}
+/* Dark mode: show moon, hide sun */
+.theme-icon--moon { opacity: 1; transform: rotate(0deg) scale(1); }
+.theme-icon--sun  { opacity: 0; transform: rotate(-90deg) scale(.5); }
+
+/* Light mode: hide moon, show sun */
+html[data-theme="light"] .theme-icon--moon { opacity: 0; transform: rotate(90deg) scale(.5); }
+html[data-theme="light"] .theme-icon--sun  { opacity: 1; transform: rotate(0deg) scale(1); }

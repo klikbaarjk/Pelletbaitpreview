@@ -245,6 +245,25 @@
     if (e.key === 'Escape') { closeMobileNav(); closeCartDrawer(); }
   });
 
+  /* --- Theme toggle --- */
+  function initThemeToggle() {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var html = document.documentElement;
+      var isLight = html.getAttribute('data-theme') === 'light';
+      html.classList.add('theme-transition');
+      setTimeout(function () { html.classList.remove('theme-transition'); }, 320);
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        localStorage.removeItem('pb-theme');
+      } else {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('pb-theme', 'light');
+      }
+    });
+  }
+
   /* --- Init --- */
   document.addEventListener('DOMContentLoaded', function () {
     initCategoryList();
@@ -254,5 +273,6 @@
     initFilterPills();
     initATC();
     updateCartCount();
+    initThemeToggle();
   });
 })();
