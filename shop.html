@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0f0e">
+  <title>Shop — PELLETBAITS</title>
+  <meta name="description" content="Het complete Coppens-assortiment. Karperpellets, meervalpellets, method feeder pellets en meer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/theme.css">
+  <style>
+    /* Shop section styles (from shop-section.liquid) */
+    .shop-section { padding: 140px 0 120px; background: var(--bg); }
+
+    .pb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .pb-card {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
+    }
+    .pb-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--line-2);
+      box-shadow: 0 24px 60px rgba(0,0,0,.4);
+    }
+
+    .pb-card-img {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: var(--deep);
+      display: block;
+      flex-shrink: 0;
+    }
+    .pb-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(.9);
+      transition: transform .8s ease;
+    }
+    .pb-card:hover .pb-card-img img { transform: scale(1.06); }
+
+    .pb-card-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink-3); opacity: .35;
+    }
+
+    .pb-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 4px;
+    }
+    .pb-badge--bestseller { background: rgba(255,255,255,.95); color: #0a0f0e; }
+    .pb-badge--nieuw      { background: var(--accent); color: #fff; }
+    .pb-badge--premium    { background: var(--moss); color: var(--ink); border: 1px solid rgba(255,255,255,.12); }
+    .pb-badge--bulk       { background: #9a5400; color: #fff; }
+
+    .pb-card-body {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      flex: 1;
+    }
+
+    .pb-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .pb-card-type {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-weight: 500;
+    }
+    .pb-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .pb-stars { display: flex; gap: 1px; color: #e8a020; }
+    .pb-rating-score { font-size: 11px; font-weight: 600; color: var(--ink-2); }
+    .pb-rating-count { font-size: 10px; color: var(--ink-3); }
+
+    .pb-card-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: .01em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+      margin: 0;
+    }
+    .pb-card-title a { color: inherit; }
+    .pb-card-title a:hover { color: var(--ink-2); }
+
+    .pb-card-vendor {
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-top: -2px;
+    }
+
+    .pb-pill-row { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pb-pill {
+      padding: 4px 9px;
+      border: 1px solid var(--line-2);
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-3);
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+    .pb-pill.is-active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .pb-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      margin-top: auto;
+    }
+    .pb-card-price {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 26px;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .pb-price-from {
+      font-size: .6em;
+      font-weight: 500;
+      color: var(--ink-3);
+      letter-spacing: .05em;
+    }
+    .pb-card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #fff;
+      color: #0a0f0e;
+      flex-shrink: 0;
+      transition: background 140ms ease;
+    }
+    .pb-card-btn:hover { background: var(--ink); }
+
+    @media (max-width: 900px) { .pb-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 620px) {
+      .pb-grid { grid-template-columns: 1fr; }
+      .shop-section { padding: 80px 0; }
+    }
+  </style>
+</head>
+<body class="template-collection">
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="header-logo-wrap" aria-label="Pelletbaits">
+          <span class="header-logo-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12c0 0-5-7-9-7s-9 7-9 7 5 7 9 7 9-7 9-7z"/>
+              <circle cx="12" cy="12" r="2.5"/>
+            </svg>
+          </span>
+          <span class="header-logo-text">PELLETBAITS</span>
+        </a>
+        <nav class="header-nav" role="navigation" aria-label="Hoofdmenu">
+          <a href="shop.html" style="color:#fff">Karper</a>
+          <a href="shop.html">Koi &amp; Vijver</a>
+          <a href="shop.html">Meerval</a>
+          <a href="shop.html">Witvis</a>
+          <a href="shop.html">Tools</a>
+          <a href="over-ons.html">Over Ons</a>
+        </nav>
+        <div class="header-actions">
+          <button class="header-cart-btn" data-cart-open aria-label="Winkelwagen openen">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/>
+            </svg>
+            Cart
+          </button>
+          <button class="mobile-menu-btn" id="mobile-nav-open" aria-label="Menu openen" aria-expanded="false" aria-controls="mobile-nav">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+
+    <!-- COLLECTION HEADER -->
+    <div class="collection-header">
+      <div class="container">
+        <div class="collection-breadcrumb">
+          <a href="index.html">Home</a>
+          <span>·</span>
+          <span>Shop</span>
+        </div>
+        <h1 class="collection-title display">Alle<br><span style="color:var(--accent)">Producten</span></h1>
+        <p class="collection-desc">Het complete Coppens-assortiment — karperpellets, meervalpellets, method feeder, pellet waggler en mixen op maat.</p>
+      </div>
+    </div>
+
+    <!-- SHOP SECTION -->
+    <section class="shop-section" aria-labelledby="shop-heading">
+      <div class="container">
+
+        <div class="section-header-row">
+          <div>
+            <p class="eyebrow" style="margin-bottom:16px">Onze keuze</p>
+            <h2 class="bs-headline display" id="shop-heading">Best<span class="muted">sellers</span></h2>
+          </div>
+          <div class="section-nav-controls">
+            <a href="shop.html" class="feat-cta">
+              Alle producten
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="pb-grid" role="list">
+
+          <!-- Product 1: Hard Hook Bait -->
+          <div role="listitem">
+            <article class="pb-card">
+              <a href="#" class="pb-card-img" tabindex="-1" aria-label="Hard Hook Bait">
+                <div class="pb-card-placeholder" aria-hidden="true">
+                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+                    <circle cx="32" cy="32" r="20" fill="currentColor" opacity=".5"/>
+                    <circle cx="14" cy="26" r="9" fill="currentColor" opacity=".35"/>
+                    <circle cx="50" cy="22" r="11" fill="currentColor" opacity=".3"/>
+                  </svg>
+                </div>
+                <span class="pb-badge pb-badge--bestseller">Bestseller</span>
+              </a>
+              <div class="pb-card-body">
+                <div class="pb-card-meta">
+                  <p class="pb-card-type">Karper Pellets</p>
+                  <div class="pb-rating" aria-label="Beoordeling 4.8">
+                    <span class="pb-stars" aria-hidden="true">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </span>
+                    <span class="pb-rating-score">4.8</span>
+                    <span class="pb-rating-count">502</span>
+                  </div>
+                </div>
+                <h3 class="pb-card-title"><a href="#">Hard Hook Bait</a></h3>
+                <p class="pb-card-vendor">Halibut</p>
+                <div class="pb-pill-row" aria-label="Beschikbare maten">
+                  <span class="pb-pill is-active">2mm</span>
+                  <span class="pb-pill">4mm</span>
+                  <span class="pb-pill">6mm</span>
+                  <span class="pb-pill">8mm</span>
+                </div>
+                <div class="pb-pill-row" aria-label="Beschikbare gewichten">
+                  <span class="pb-pill is-active">1 kg</span>
+                  <span class="pb-pill">5 kg</span>
+                  <span class="pb-pill">15 kg</span>
+                </div>
+                <div class="pb-card-footer">
+                  <p class="pb-card-price">€34,95</p>
+                  <a href="#" class="pb-card-btn" aria-label="Bekijk Hard Hook Bait">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Product 2: Meerval Monster -->
+          <div role="listitem">
+            <article class="pb-card">
+              <a href="#" class="pb-card-img" tabindex="-1" aria-label="Meerval Monster">
+                <div class="pb-card-placeholder" aria-hidden="true">
+                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+                    <circle cx="32" cy="32" r="20" fill="currentColor" opacity=".5"/>
+                    <circle cx="14" cy="26" r="9" fill="currentColor" opacity=".35"/>
+                    <circle cx="50" cy="22" r="11" fill="currentColor" opacity=".3"/>
+                  </svg>
+                </div>
+                <span class="pb-badge pb-badge--bestseller">Bestseller</span>
+              </a>
+              <div class="pb-card-body">
+                <div class="pb-card-meta">
+                  <p class="pb-card-type">Meerval Pellets</p>
+                  <div class="pb-rating" aria-label="Beoordeling 4.8">
+                    <span class="pb-stars" aria-hidden="true">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </span>
+                    <span class="pb-rating-score">4.8</span>
+                    <span class="pb-rating-count">630</span>
+                  </div>
+                </div>
+                <h3 class="pb-card-title"><a href="#">Meerval Monster</a></h3>
+                <p class="pb-card-vendor">Makreel &amp; Lever</p>
+                <div class="pb-pill-row" aria-label="Beschikbare maten">
+                  <span class="pb-pill is-active">12mm</span>
+                  <span class="pb-pill">20mm</span>
+                  <span class="pb-pill">30mm</span>
+                </div>
+                <div class="pb-pill-row" aria-label="Beschikbare gewichten">
+                  <span class="pb-pill is-active">2 kg</span>
+                  <span class="pb-pill">8 kg</span>
+                  <span class="pb-pill">20 kg</span>
+                </div>
+                <div class="pb-card-footer">
+                  <p class="pb-card-price">€64,95</p>
+                  <a href="#" class="pb-card-btn" aria-label="Bekijk Meerval Monster">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Product 3: Method Mix -->
+          <div role="listitem">
+            <article class="pb-card">
+              <a href="#" class="pb-card-img" tabindex="-1" aria-label="Method Mix">
+                <div class="pb-card-placeholder" aria-hidden="true">
+                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+                    <circle cx="32" cy="32" r="20" fill="currentColor" opacity=".5"/>
+                    <circle cx="14" cy="26" r="9" fill="currentColor" opacity=".35"/>
+                    <circle cx="50" cy="22" r="11" fill="currentColor" opacity=".3"/>
+                  </svg>
+                </div>
+                <span class="pb-badge pb-badge--bestseller">Beste keuze</span>
+              </a>
+              <div class="pb-card-body">
+                <div class="pb-card-meta">
+                  <p class="pb-card-type">Method Mix</p>
+                  <div class="pb-rating" aria-label="Beoordeling 4.7">
+                    <span class="pb-stars" aria-hidden="true">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </span>
+                    <span class="pb-rating-score">4.7</span>
+                    <span class="pb-rating-count">631</span>
+                  </div>
+                </div>
+                <h3 class="pb-card-title"><a href="#">Method Mix</a></h3>
+                <p class="pb-card-vendor">Vanille &amp; Tiger Noot</p>
+                <div class="pb-pill-row" aria-label="Beschikbare gewichten">
+                  <span class="pb-pill is-active">600g</span>
+                  <span class="pb-pill">2 kg</span>
+                </div>
+                <div class="pb-card-footer">
+                  <p class="pb-card-price">€11,95</p>
+                  <a href="#" class="pb-card-btn" aria-label="Bekijk Method Mix">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo-wrap">
+            <span class="footer-logo-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12c0 0-5-7-9-7s-9 7-9 7 5 7 9 7 9-7 9-7z"/>
+                <circle cx="12" cy="12" r="2.5"/>
+              </svg>
+            </span>
+            <span class="footer-logo-text">PELLETBAITS</span>
+          </div>
+          <p class="footer-desc">Dé specialist in vispellets. Officieel distributeur van Alltech Coppens — het meest uitgebreide assortiment vispellets voor elke vissoort.</p>
+          <div class="footer-contact" style="margin-top:20px;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--ink-3);">
+            <a href="mailto:info@pelletbaits.nl" style="transition:color .14s ease;">info@pelletbaits.nl</a>
+            <a href="tel:+31610487142" style="transition:color .14s ease;">06-10487142</a>
+            <span>De Droogmakerij 22D, Heiloo</span>
+          </div>
+        </div>
+        <div>
+          <p class="footer-col-title eyebrow">Vissoorten</p>
+          <ul class="footer-links">
+            <li><a href="shop.html">Koi &amp; Vijver</a></li>
+            <li><a href="shop.html">Karper</a></li>
+            <li><a href="shop.html">Meerval</a></li>
+            <li><a href="shop.html">Witvis</a></li>
+            <li><a href="shop.html">Tools</a></li>
+            <li><a href="shop.html">Alle producten</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title eyebrow">Informatie</p>
+          <ul class="footer-links">
+            <li><a href="over-ons.html">Over Ons</a></li>
+            <li><a href="#">Klantenservice</a></li>
+            <li><a href="#">Verzending &amp; Retour</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Nieuws</a></li>
+            <li><a href="#">Mijn account</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title eyebrow">Nieuwsbrief</p>
+          <p class="footer-newsletter-body">Ontvang tips, aanbiedingen en nieuws over nieuwe producten direct in je inbox.</p>
+          <form class="newsletter-form" novalidate>
+            <label class="visually-hidden" for="shop-newsletter-email">E-mailadres</label>
+            <input class="newsletter-input" id="shop-newsletter-email" type="email" placeholder="jouw@email.nl" autocomplete="email" required>
+            <button class="newsletter-submit" type="submit">OK</button>
+          </form>
+          <p class="newsletter-note">Door je aan te melden ga je akkoord met onze <a href="#">privacyverklaring</a>.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Pelletbaits. Alle rechten voorbehouden.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Voorwaarden</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile nav -->
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="header-logo-wrap" aria-label="Pelletbaits">
+        <span class="header-logo-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12c0 0-5-7-9-7s-9 7-9 7 5 7 9 7 9-7 9-7z"/>
+            <circle cx="12" cy="12" r="2.5"/>
+          </svg>
+        </span>
+        <span class="header-logo-text">PELLETBAITS</span>
+      </a>
+      <button class="cart-close-btn" id="mobile-nav-close" aria-label="Menu sluiten">&#x2715;</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="shop.html">Karper</a>
+      <a href="shop.html">Koi &amp; Vijver</a>
+      <a href="shop.html">Meerval</a>
+      <a href="shop.html">Witvis</a>
+      <a href="shop.html">Tools</a>
+      <a href="over-ons.html">Over Ons</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Cart drawer -->
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+  <div class="cart-drawer" id="cart-drawer" role="dialog" aria-label="Winkelwagen" aria-hidden="true">
+    <div class="cart-drawer-header">
+      <p class="cart-drawer-title">Winkelwagen</p>
+      <button class="cart-close-btn" id="cart-drawer-close" aria-label="Winkelwagen sluiten">&#x2715;</button>
+    </div>
+    <div class="cart-items" id="cart-drawer-items">
+      <p class="cart-empty">Je winkelwagen is leeg.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span class="cart-subtotal-label">Subtotaal</span>
+        <span class="cart-subtotal-value" id="cart-subtotal-value">€0,00</span>
+      </div>
+      <a href="#" class="btn-checkout">Afrekenen</a>
+    </div>
+  </div>
+
+  <script src="./assets/theme.js" defer></script>
+</body>
+</html>
