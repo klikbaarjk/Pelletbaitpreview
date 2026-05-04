@@ -729,6 +729,14 @@ function App(){
       <ShopGrid onAdd={add} onOpen={(id)=>{setPdp(id);window.scrollTo(0,0)}}/>
       {pdp && <ProductDetail pid={pdp} onClose={()=>setPdp(null)} onAdd={add}/>}
       <Cart open={cartOpen} onClose={()=>setCartOpen(false)} items={cart} onRemove={remove}/>
+      <footer style={{borderTop:'1px solid var(--line)',padding:'40px 0',marginTop:80}}>
+        <div className="container" style={{display:'flex',flexDirection:'column',gap:6,fontSize:13,color:'var(--ink-3)'}}>
+          <a href="mailto:timo@pelletbaits.nl" style={{color:'var(--ink-3)',transition:'color .14s ease'}}>timo@pelletbaits.nl</a>
+          <a href="tel:+31610487142" style={{color:'var(--ink-3)',transition:'color .14s ease'}}>06-10487142</a>
+          <span>De Droogmakerij 22D, Heiloo</span>
+          <span style={{marginTop:8}}>&copy; 2026 Pelletbaits. Alle rechten voorbehouden.</span>
+        </div>
+      </footer>
     </>
   );
 }
