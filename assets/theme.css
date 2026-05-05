@@ -1610,6 +1610,3 @@ html[data-theme="light"] .newsletter-submit:hover { background: var(--ink-2); }
 /* Light mode: hide moon, show sun */
 html[data-theme="light"] .theme-icon--moon { opacity: 0; transform: rotate(90deg) scale(.5); }
 html[data-theme="light"] .theme-icon--sun  { opacity: 1; transform: rotate(0deg) scale(1); }
-
-/* SVG bag label — dark fill in light mode for contrast on orange background */
-html[data-theme="light"] .hhb-text { fill: #0a0f0e; }
