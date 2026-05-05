@@ -138,7 +138,7 @@ function Nav({cartCount,onCart,darkMode,onToggleTheme}){
     <nav style={{position:'sticky',top:0,zIndex:50,padding:'16px 0',background:navBg,backdropFilter:'blur(14px)',borderBottom:'1px solid var(--line)'}}>
       <div className="container" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:24}}>
         <a href="index.html" style={{display:'flex',alignItems:'center',gap:10}}>
-          <img src="./assets/logo-white.png" alt="Pelletbaits" style={{height:42,width:'auto',display:'block',filter:darkMode?'none':'brightness(0)'}}/>
+          <span style={{fontFamily:'Barlow Condensed',fontWeight:800,fontSize:20,letterSpacing:'.18em',color:'#63cf05'}}>PELLETBAITS</span>
         </a>
         <div className="navlinks" style={{display:'flex',gap:20,fontSize:12,letterSpacing:'.10em',textTransform:'uppercase',color:linkClr}}>
           <a href="shop.html" style={{color:'var(--accent)'}}>Kapervissen</a>
@@ -375,7 +375,7 @@ function ProductCard({p,onAdd,onOpen,view='grid'}){
           <button onClick={()=>onAdd({...p,price:p.salePrice||p.price,size})} style={{
             width:38,height:38,borderRadius:'50%',background:'var(--accent)',color:'#fff',display:'inline-flex',alignItems:'center',justifyContent:'center',
             transition:'transform .25s',transform:hover?'scale(1.08)':'scale(1)',
-            boxShadow:'0 6px 20px rgba(214,52,47,.35)'
+            boxShadow:'0 6px 20px rgba(99,207,5,.35)'
           }}><Icon.Arrow/></button>
         </div>
       </div>
@@ -566,7 +566,7 @@ function ProductDetail({pid,onClose,onAdd}){
                     <button key={s} onClick={()=>setSize(s)} style={{
                       display:'flex',justifyContent:'space-between',alignItems:'center',
                       padding:'14px 16px',borderRadius:10,
-                      background: size===s?'rgba(214,52,47,.06)':'transparent',
+                      background: size===s?'rgba(99,207,5,.08)':'transparent',
                       border: size===s?'1px solid var(--accent)':'1px solid var(--line-2)',
                     }}>
                       <span style={{display:'flex',alignItems:'center',gap:12}}>
@@ -599,7 +599,7 @@ function ProductDetail({pid,onClose,onAdd}){
               </div>
               <button onClick={()=>onAdd({...p,price:p.salePrice||p.price,size,diameter,qty})} style={{
                 width:'100%',marginTop:18,padding:'18px',borderRadius:999,background:'var(--accent)',color:'#fff',fontWeight:700,fontSize:13,letterSpacing:'.18em',textTransform:'uppercase',
-                boxShadow:'0 14px 40px rgba(214,52,47,.35)',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:12
+                boxShadow:'0 14px 40px rgba(99,207,5,.35)',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:12
               }}>In winkelmandje · €{((p.salePrice||p.price)*qty).toFixed(2).replace('.',',')} <Icon.Arrow/></button>
               <div style={{display:'flex',justifyContent:'space-between',marginTop:14,fontSize:11,color:'var(--ink-2)',letterSpacing:'.1em',textTransform:'uppercase'}}>
                 <span style={{display:'flex',alignItems:'center',gap:8}}><Icon.Truck/> Voor 23:00 — morgen in huis</span>
