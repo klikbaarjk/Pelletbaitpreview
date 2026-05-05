@@ -1409,6 +1409,25 @@ html[data-theme="light"] .header-logo-img {
 .spec-table td:first-child { color: var(--ink-3); font-weight: 600; width: 40%; }
 .spec-table td:last-child { color: var(--ink); }
 
+/* --- Hero card float animation --- */
+@keyframes pb-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-16px); }
+}
+.hero-card--float {
+  animation: pb-float 5s ease-in-out infinite;
+  animation-delay: 1.4s;
+  will-change: transform;
+}
+
+/* --- Footer logo --- */
+.footer-logo-img {
+  height: 90px;
+  width: auto;
+  display: block;
+}
+html[data-theme="light"] .footer-logo-img { filter: brightness(0); }
+
 /* --- Scroll-in animations --- */
 [data-anim] {
   opacity: 0;
