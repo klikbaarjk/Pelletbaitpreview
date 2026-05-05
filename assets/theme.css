@@ -536,24 +536,6 @@ html[data-theme="light"] .header-logo-img {
     0 0 28px rgba(99,207,5,.18);
 }
 
-/* Shine sweep on hover */
-.product-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 40%,
-    rgba(99,207,5,.07) 50%,
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 380ms ease;
-  pointer-events: none;
-  z-index: 1;
-  border-radius: inherit;
-}
-.product-card:hover::after { opacity: 1; }
 
 .product-card-image {
   display: block;
