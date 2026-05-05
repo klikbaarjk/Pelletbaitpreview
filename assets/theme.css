@@ -33,6 +33,11 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-fast: 140ms;
   --dur-base: 280ms;
+
+  /* Floating UI coordinate system */
+  --floating-ui-height: 52px;
+  --floating-ui-gap:    20px;
+  --floating-ui-offset: calc(var(--floating-ui-height) + var(--floating-ui-gap) * 2);
 }
 
 /* --- Reset --- */
@@ -1630,3 +1635,66 @@ html[data-theme="light"] .newsletter-submit:hover { background: var(--ink-2); }
 /* Light mode: hide moon, show sun */
 html[data-theme="light"] .theme-icon--moon { opacity: 0; transform: rotate(90deg) scale(.5); }
 html[data-theme="light"] .theme-icon--sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+
+/* ================================================
+   FLOATING UI SYSTEM
+   All fixed bottom elements share a coordinate
+   system via CSS custom properties to prevent
+   overlap as the stack grows.
+   ================================================ */
+
+.wa-btn {
+  position: fixed;
+  bottom: var(--floating-ui-gap);
+  right: var(--floating-ui-gap);
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 28px rgba(37,211,102,.45);
+  transition: transform 280ms cubic-bezier(0.16,1,0.3,1),
+              box-shadow 280ms ease;
+}
+.wa-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(37,211,102,.55);
+}
+.wa-btn:focus-visible {
+  outline: 2px solid #25D366;
+  outline-offset: 3px;
+}
+
+/* Collapse to icon-only circle on very small screens */
+@media (max-width: 400px) {
+  .wa-btn {
+    padding: 0;
+    width: var(--floating-ui-height);
+    height: var(--floating-ui-height);
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .wa-btn .wa-btn-label { display: none; }
+}
+
+/* Future checkout bar — uncomment when added:
+.checkout-bar {
+  position: fixed;
+  bottom: 0; left: 0;
+  width: 100%;
+  z-index: 9998;
+  height: var(--checkout-bar-height, 72px);
+}
+.checkout-bar ~ .wa-btn {
+  bottom: calc(var(--checkout-bar-height, 72px) + var(--floating-ui-gap));
+}
+*/
