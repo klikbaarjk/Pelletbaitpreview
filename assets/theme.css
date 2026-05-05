@@ -1562,6 +1562,7 @@ html[data-theme="light"] .mobile-menu-btn:hover { border-color: rgba(0,0,0,.3); 
 /* Hero card (floats over dark photo — only fix badge/button text) */
 html[data-theme="light"] .hero-card-price { color: #0a0f0e; }
 html[data-theme="light"] .hero-card-name  { color: #fff; }
+html[data-theme="light"] .hero-card-desc  { color: #fff; }
 html[data-theme="light"] .hero-card-add   { background: #fff; color: #0a0f0e; }
 html[data-theme="light"] .hero-card-add:hover { background: rgba(255,255,255,.85); }
 
