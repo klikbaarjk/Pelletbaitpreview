@@ -12,8 +12,8 @@
     --bg:#0a0f0e; --bg-2:#0f1614; --bg-3:#141d1b;
     --ink:#e8efe9; --ink-2:#a8b3ad; --ink-3:#6b7672;
     --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
-    --accent:#d6342f; --accent-2:#b32721;
-    --gold:#e9b94a; --moss:#3a5e3f;
+    --accent:#63cf05; --accent-2:#608846;
+    --gold:#89B866; --moss:#365733;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
@@ -134,22 +134,22 @@ const PRODUCTS = [
 function Nav({cartCount,onCart,darkMode,onToggleTheme}){
   const navBg   = darkMode ? 'rgba(10,15,14,.92)' : 'rgba(245,242,236,.93)';
   const linkClr = darkMode ? 'rgba(255,255,255,.85)' : 'rgba(13,20,18,.8)';
-  const cartBg  = darkMode ? '#fff' : '#0d1412';
-  const cartClr = darkMode ? '#0a0f0e' : '#f5f2ec';
   return (
     <nav style={{position:'sticky',top:0,zIndex:50,padding:'16px 0',background:navBg,backdropFilter:'blur(14px)',borderBottom:'1px solid var(--line)'}}>
       <div className="container" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:24}}>
         <a href="index.html" style={{display:'flex',alignItems:'center',gap:10}}>
-          <span style={{display:'inline-flex',alignItems:'center',justifyContent:'center',width:34,height:34,border:'1px solid var(--line-2)',borderRadius:'50%'}}><Icon.Logo/></span>
-          <span style={{fontFamily:'Barlow Condensed',fontWeight:800,fontSize:18,letterSpacing:'.18em',color:'var(--ink)'}}>PELLETBAITS</span>
+          <img src="./assets/logo-white.png" alt="Pelletbaits" style={{height:42,width:'auto',display:'block',filter:darkMode?'none':'brightness(0)'}}/>
         </a>
-        <div className="navlinks" style={{display:'flex',gap:32,fontSize:13,letterSpacing:'.12em',textTransform:'uppercase',color:linkClr}}>
-          <a href="shop.html" style={{color:'var(--accent)'}}>Shop</a>
-          <a href="shop.html">Karper Pellets</a>
-          <a href="shop.html">Hookbaits</a>
-          <a href="shop.html">Liquids</a>
+        <div className="navlinks" style={{display:'flex',gap:20,fontSize:12,letterSpacing:'.10em',textTransform:'uppercase',color:linkClr}}>
+          <a href="shop.html" style={{color:'var(--accent)'}}>Kapervissen</a>
+          <a href="shop.html">Meervalvissen</a>
+          <a href="shop.html">Steurvissen</a>
+          <a href="shop.html">Methodfeeder</a>
+          <a href="shop.html">Waggler</a>
+          <a href="shop.html">Koi/Vijver</a>
+          <a href="shop.html">Tools</a>
           <a href="over-ons.html">Over Ons</a>
-          <a href="index.html">Home</a>
+          <a href="contact.html">Contact</a>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:14}}>
           <button onClick={onToggleTheme} className="shop-theme-toggle" aria-label="Schakel thema">
@@ -157,7 +157,7 @@ function Nav({cartCount,onCart,darkMode,onToggleTheme}){
             <span className="shop-ti shop-ti-sun"><Icon.Sun/></span>
           </button>
           <button style={{display:'flex',alignItems:'center',justifyContent:'center',width:34,height:34,borderRadius:'50%',border:'1px solid var(--line-2)',color:'var(--ink)'}}><Icon.Search/></button>
-          <button onClick={onCart} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 14px 8px 12px',borderRadius:999,background:cartBg,color:cartClr,fontWeight:600,fontSize:12,letterSpacing:'.14em',textTransform:'uppercase'}}>
+          <button onClick={onCart} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 14px 8px 12px',borderRadius:999,background:'#63cf05',color:'#0a0f0e',fontWeight:700,fontSize:12,letterSpacing:'.14em',textTransform:'uppercase'}}>
             <Icon.Bag/> Cart · {cartCount}
           </button>
         </div>
