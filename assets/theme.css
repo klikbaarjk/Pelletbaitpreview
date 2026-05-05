@@ -103,6 +103,17 @@ input, select { font: inherit; }
   -webkit-backdrop-filter: blur(14px);
   border-bottom-color: var(--line);
 }
+/* Gradient veil beneath nav — boosts legibility over dark hero in both modes */
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.30) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity var(--dur-base) ease;
+}
+.site-header.scrolled::before { opacity: 0; }
 
 .header-inner {
   display: flex;
@@ -1522,19 +1533,26 @@ html[data-theme="light"] {
   --inv-color: #f5f2ec;
 }
 
-/* Header */
+/* Header
+   Nav/icon text stays white on transparent header (always over dark hero).
+   Switches to dark only when .scrolled gives the header a cream background. */
 html[data-theme="light"] .site-header.scrolled {
-  background: rgba(245,242,236,.93);
+  background: rgba(245,242,236,.97);
 }
-html[data-theme="light"] .header-nav {
-  color: rgba(13,20,18,.8);
+html[data-theme="light"] .site-header.scrolled .header-nav {
+  color: rgba(13,20,18,.9);
+}
+html[data-theme="light"] .site-header.scrolled .header-search-btn,
+html[data-theme="light"] .site-header.scrolled .theme-toggle-btn {
+  color: var(--ink);
+  border-color: var(--line-2);
 }
 html[data-theme="light"] .header-cart-btn {
   background: var(--accent);
   color: #0a0f0e;
 }
 html[data-theme="light"] .header-cart-btn:hover { background: var(--accent-2); color: #fff; }
-html[data-theme="light"] .header-search-btn:hover { background: rgba(0,0,0,.05); }
+html[data-theme="light"] .site-header.scrolled .header-search-btn:hover { background: rgba(0,0,0,.05); }
 html[data-theme="light"] .mobile-menu-btn {
   border-color: rgba(0,0,0,.14);
   color: var(--ink);
