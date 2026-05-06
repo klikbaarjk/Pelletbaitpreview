@@ -984,6 +984,113 @@ html[data-theme="light"] .header-logo-img {
 }
 .btn-cta-secondary:hover { background: rgba(255,255,255,.12); }
 
+/* --- Beurs / Evenement --- */
+.beurs-section {
+  padding: 100px 0;
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.beurs-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.beurs-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  animation: beurs-pulse 2s ease-in-out infinite;
+}
+@keyframes beurs-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(99,207,5,.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(99,207,5,0); }
+  100% { box-shadow: 0 0 0 0 rgba(99,207,5,0); }
+}
+.beurs-headline {
+  font-size: clamp(40px, 5.5vw, 84px);
+  margin: 0 0 48px;
+  color: var(--ink);
+}
+.beurs-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  padding: 36px 40px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-lg);
+  background: var(--bg-3);
+  flex-wrap: wrap;
+}
+.beurs-event-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 3.5vw, 52px);
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 24px;
+  line-height: 1;
+}
+.beurs-meta {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.beurs-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.beurs-meta-label {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.beurs-meta-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+.beurs-meta-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--line-2);
+  flex-shrink: 0;
+}
+.beurs-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 26px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+.beurs-cta:hover { background: var(--accent-2); transform: translateY(-2px); }
+
+@media(max-width:900px) {
+  .beurs-card { flex-direction: column; align-items: flex-start; }
+  .beurs-meta-divider { display: none; }
+  .beurs-section { padding: 80px 0; }
+}
+
 /* --- Footer --- */
 .site-footer {
   background: #06090a;
