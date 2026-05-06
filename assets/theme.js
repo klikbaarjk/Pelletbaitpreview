@@ -38,12 +38,15 @@
   var cartClose   = document.getElementById('cart-drawer-close');
   var cartItemsEl = document.getElementById('cart-drawer-items');
 
+  var waBtn = document.querySelector('.wa-btn');
+
   function openCartDrawer() {
     if (!cartDrawer) return;
     cartDrawer.classList.add('open');
     cartDrawer.setAttribute('aria-hidden', 'false');
     if (cartOverlay) cartOverlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (waBtn) waBtn.style.display = 'none';
     fetchCartItems();
   }
   function closeCartDrawer() {
@@ -52,6 +55,7 @@
     cartDrawer.setAttribute('aria-hidden', 'true');
     if (cartOverlay) cartOverlay.classList.remove('open');
     document.body.style.overflow = '';
+    if (waBtn) waBtn.style.display = '';
   }
 
   document.addEventListener('click', function (e) {
