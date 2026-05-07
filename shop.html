@@ -331,11 +331,11 @@ function ProductCard({p,onAdd,onOpen,view='grid'}){
       )}
       <button style={{position:'absolute',top:14,right:14,zIndex:2,width:32,height:32,borderRadius:'50%',border:'1px solid var(--line-2)',background:'rgba(10,15,14,.5)',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',justifyContent:'center'}}><Icon.Heart/></button>
 
-      <button onClick={()=>onOpen(p.id)} style={{position:'relative',aspectRatio:'1/1',background:'linear-gradient(180deg,#0d1413 0%,#0a0f0e 100%)',borderRadius:'14px 14px 0 0',overflow:'hidden',display:'block',width:'100%',padding:0}}>
+      <a href={`product.html?id=${p.id}`} style={{position:'relative',aspectRatio:'1/1',background:'linear-gradient(180deg,#0d1413 0%,#0a0f0e 100%)',borderRadius:'14px 14px 0 0',overflow:'hidden',display:'block',width:'100%',padding:0}}>
         <div style={{position:'absolute',inset:0,padding:'30px 40px',transition:'transform .5s',transform:hover?'translateY(-4px)':'translateY(0)'}}>
           <BagMockup color={p.color} label={p.name} sub={p.sub.toUpperCase()} size={p.sizes[Math.min(1,p.sizes.length-1)]} diameter={p.diameters[Math.min(2,p.diameters.length-1)]} accent={p.accent}/>
         </div>
-      </button>
+      </a>
 
       <div style={{padding:'18px 18px 20px',flex:1,display:'flex',flexDirection:'column'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',gap:10}}>
@@ -344,7 +344,7 @@ function ProductCard({p,onAdd,onOpen,view='grid'}){
             <Icon.Star/> <span style={{color:'var(--ink-2)'}}>{p.rating} <span style={{color:'var(--ink-3)'}}>({p.reviews})</span></span>
           </div>
         </div>
-        <div className="display" onClick={()=>onOpen(p.id)} style={{fontSize:22,marginTop:6,color:'var(--accent)',cursor:'pointer'}}>{p.name}</div>
+        <a href={`product.html?id=${p.id}`} className="display" style={{fontSize:22,marginTop:6,color:'var(--accent)',cursor:'pointer',display:'block'}}>{p.name}</a>
         <div style={{fontSize:12,color:'var(--ink-2)',marginTop:2}}>{p.sub}</div>
 
         <div style={{display:'flex',gap:6,marginTop:14}}>

@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Product — PELLETBAITS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0f0e;--bg-2:#0f1614;--bg-3:#141d1b;
+    --ink:#e8efe9;--ink-2:#a8b3ad;--ink-3:#6b7672;
+    --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.14);
+    --accent:#63cf05;--accent-2:#608846;
+    --gold:#89B866;--moss:#365733;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  img{display:block;max-width:100%}
+  ::selection{background:var(--accent);color:#fff}
+  .display{font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:-.01em;line-height:.92;text-transform:uppercase}
+  .eyebrow{font-family:'Inter';font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+  .container{max-width:1440px;margin:0 auto;padding:0 32px}
+  @media(max-width:720px){.container{padding:0 20px}}
+  html[data-theme="light"]{
+    --bg:#f5f2ec;--bg-2:#ebe8e1;--bg-3:#e0ddd5;
+    --ink:#0d1412;--ink-2:#3e4e48;--ink-3:#7a8a84;
+    --line:rgba(0,0,0,.09);--line-2:rgba(0,0,0,.15);
+  }
+  html.theme-transition *,html.theme-transition *::before,html.theme-transition *::after{
+    transition:background-color .28s ease,color .28s ease,border-color .28s ease!important
+  }
+</style>
+<script>(function(){var t=localStorage.getItem('pb-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}());</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect } = React;
+
+/* ---------- ICONS ---------- */
+const Icon = {
+  Logo:({size=18})=>(<svg width={size} height={size} viewBox="0 0 32 32" fill="none"><path d="M3 16c4-6 9-9 14-9 4 0 8 2 12 5-3 4-7 6-12 6-3 0-7-1-10-3 1 3 4 5 7 6-4 1-8-1-11-5z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/><circle cx="22" cy="13" r="1" fill="currentColor"/></svg>),
+  Bag:()=>(<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>),
+  Arrow:({d='right',size=16})=>{const r={right:0,down:90,left:180,up:270}[d];return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" style={{transform:`rotate(${r}deg)`}}><path d="M5 12h14M13 6l6 6-6 6"/></svg>},
+  Plus:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>),
+  Minus:()=>(<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/></svg>),
+  Star:({filled=true})=>(<svg width="13" height="13" viewBox="0 0 24 24" fill={filled?'currentColor':'none'} stroke="currentColor" strokeWidth="1.5"><path d="M12 2l3 7 7 .6-5.5 4.6L18 21l-6-3.6L6 21l1.5-6.8L2 9.6 9 9z"/></svg>),
+  Truck:()=>(<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>),
+  Box:()=>(<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7"/></svg>),
+  Chev:({d='down'})=>{const r={down:0,up:180}[d];return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{transform:`rotate(${r}deg)`}}><path d="M6 9l6 6 6-6"/></svg>},
+  Moon:()=>(<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>),
+  Sun:()=>(<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>),
+  Drop:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 3c4 5 7 8 7 12a7 7 0 1 1-14 0c0-4 3-7 7-12z"/></svg>),
+  Ruler:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="8" width="20" height="8"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg>),
+  Weight:()=>(<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 7h14l-2 14H7L5 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>),
+};
+
+/* ---------- BAG MOCKUP ---------- */
+function BagMockup({color='black',label='Carp Pro',sub='HALIBUT',size='5kg',diameter='6mm',accent='#e9b94a'}){
+  const palettes={
+    black:{bg:'#1a1f1d',bg2:'#0e1311',accent,ink:'#fff'},
+    orange:{bg:'#c45a1c',bg2:'#a84813',accent:'#fff',ink:'#fff'},
+    red:{bg:'#a3251f',bg2:'#7d1a15',accent:'#e9b94a',ink:'#fff'},
+    teal:{bg:'#0e3a3e',bg2:'#08272a',accent:'#7ec9c6',ink:'#fff'},
+  };
+  const p=palettes[color]||palettes.black;
+  return(
+    <svg viewBox="0 0 240 280" style={{width:'100%',height:'100%'}}>
+      <defs>
+        <linearGradient id={`bg-${color}-pdp`} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor={p.bg}/><stop offset="1" stopColor={p.bg2}/>
+        </linearGradient>
+        <linearGradient id={`shine-${color}-pdp`} x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stopColor="rgba(255,255,255,0)"/><stop offset=".5" stopColor="rgba(255,255,255,.08)"/><stop offset="1" stopColor="rgba(255,255,255,0)"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="120" cy="265" rx="80" ry="6" fill="rgba(0,0,0,.35)"/>
+      <path d="M40 30 Q40 24 46 24 L194 24 Q200 24 200 30 L200 254 Q200 260 194 260 L46 260 Q40 260 40 254 Z" fill={`url(#bg-${color}-pdp)`}/>
+      <rect x="40" y="24" width="160" height="14" fill={p.bg2}/>
+      <path d="M40 24 L60 14 L80 24 L100 14 L120 24 L140 14 L160 24 L180 14 L200 24" fill={p.bg2} stroke={p.bg2} strokeWidth="1"/>
+      <rect x="40" y="38" width="160" height="222" fill={`url(#shine-${color}-pdp)`}/>
+      <rect x="50" y="50" width="140" height="22" fill={p.accent}/>
+      <text x="120" y="65" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="800" fontSize="11" fill="#0a0f0e" letterSpacing="3">PELLETBAITS</text>
+      <text x="120" y="110" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="800" fontSize="26" fill={p.ink} letterSpacing="0.5">{label.toUpperCase()}</text>
+      <text x="120" y="128" textAnchor="middle" fontFamily="Inter" fontWeight="500" fontSize="9" fill={p.accent} letterSpacing="3">{sub}</text>
+      <circle cx="120" cy="170" r="32" fill="none" stroke={p.accent} strokeWidth="1.5"/>
+      <text x="120" y="170" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="800" fontSize="22" fill={p.accent}>{diameter}</text>
+      <text x="120" y="184" textAnchor="middle" fontFamily="Inter" fontSize="6" fill={p.accent} letterSpacing="2">DIAMETER</text>
+      <rect x="85" y="220" width="70" height="24" rx="12" fill={p.accent}/>
+      <text x="120" y="236" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="800" fontSize="14" fill="#0a0f0e">{size}</text>
+    </svg>
+  );
+}
+
+/* ---------- PRODUCT DATA ---------- */
+const PRODUCTS = [
+  {id:'carppro',name:'Carp Pro',type:'Karper Pellets',sub:'Halibut',price:34.95,sizes:['1kg','5kg','15kg'],diameters:['2mm','4mm','6mm','8mm'],rating:4.8,reviews:1257,tag:'Bestseller',color:'black',accent:'#e9b94a'},
+  {id:'meerval',name:'Meerval Monster',type:'Meerval Pellets',sub:'Bloed & Lever',price:64.95,sizes:['2kg','8kg','20kg'],diameters:['8mm','12mm','16mm'],rating:4.6,reviews:432,tag:'Nieuw',color:'black',accent:'#a3251f'},
+  {id:'methodmix',name:'Method Mix',type:'Method Bait',sub:'Vanille & Tijgernoot',price:19.95,sizes:['600g','2kg'],diameters:['Fijn','Grof'],rating:4.7,reviews:889,tag:'Populair',color:'black',accent:'#3a5e3f'},
+  {id:'hookbaits',name:'Hookbaits',type:'Hookbaits',sub:'Spicy Hazel',price:9.95,sizes:['100g','250g'],diameters:['12mm','16mm','20mm'],rating:4.8,reviews:622,tag:'Nieuw',color:'orange',accent:'#fff'},
+  {id:'feed',name:'Feed Pellets',type:'Feed Pellets',sub:'Sweet Corn',price:54.95,salePrice:44.95,sizes:['5kg','25kg'],diameters:['4mm','6mm'],rating:4.6,reviews:1102,tag:'Bulk-deal',color:'red',accent:'#e9b94a'},
+  {id:'witvis',name:'Witvis Master',type:'Witvis Pellets',sub:'Aniseed',price:13.95,sizes:['600g','2kg'],diameters:['2mm','3mm'],rating:4.6,reviews:380,tag:null,color:'black',accent:'#7ec9c6'},
+  {id:'elite',name:'Karper Elite',type:'Karper Pellets',sub:'Birdfood & Krill',price:62.95,sizes:['8kg','15kg'],diameters:['6mm','8mm'],rating:4.8,reviews:540,tag:'Premium',color:'orange',accent:'#fff'},
+  {id:'starter',name:'Starter Pakket',type:'Bundle',sub:'Mix Bundle',price:39.95,salePrice:29.95,sizes:['Bundel'],diameters:['Compleet'],rating:4.7,reviews:213,tag:'Aanbieding',color:'teal',accent:'#7ec9c6'},
+];
+
+/* ---------- CART HELPERS ---------- */
+function getCart(){try{return JSON.parse(localStorage.getItem('pb-cart')||'[]')}catch{return[]}}
+function saveCart(c){localStorage.setItem('pb-cart',JSON.stringify(c))}
+function getCartCount(){return getCart().reduce((s,i)=>s+(i.qty||1),0)}
+
+/* ---------- NAV ---------- */
+function Nav({cartCount,onCart,darkMode,onToggle}){
+  const navBg=darkMode?'rgba(10,15,14,.92)':'rgba(245,242,236,.93)';
+  const linkClr=darkMode?'rgba(255,255,255,.85)':'rgba(13,20,18,.8)';
+  return(
+    <nav style={{position:'sticky',top:0,zIndex:50,padding:'16px 0',background:navBg,backdropFilter:'blur(14px)',borderBottom:'1px solid var(--line)'}}>
+      <div className="container" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:24}}>
+        <a href="index.html" style={{display:'flex',alignItems:'center',gap:10}}>
+          <span style={{fontFamily:'Barlow Condensed',fontWeight:800,fontSize:20,letterSpacing:'.18em',color:'#63cf05'}}>PELLETBAITS</span>
+        </a>
+        <div className="navlinks" style={{display:'flex',gap:20,fontSize:12,letterSpacing:'.10em',textTransform:'uppercase',color:linkClr}}>
+          <a href="shop.html">Karpervissen</a>
+          <a href="shop.html">Meervalvissen</a>
+          <a href="shop.html">Steurvissen</a>
+          <a href="shop.html">Methodfeeder</a>
+          <a href="shop.html">Waggler</a>
+          <a href="shop.html">Koi/Vijver</a>
+          <a href="over-ons.html">Over Ons</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:14}}>
+          <button onClick={onToggle} style={{display:'inline-flex',alignItems:'center',justifyContent:'center',width:34,height:34,borderRadius:'50%',border:'1px solid var(--line-2)',background:'transparent',cursor:'pointer',color:'var(--ink)'}}>
+            {darkMode?<Icon.Moon/>:<Icon.Sun/>}
+          </button>
+          <button onClick={onCart} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 14px 8px 12px',borderRadius:999,background:'#63cf05',color:'#0a0f0e',fontWeight:700,fontSize:12,letterSpacing:'.14em',textTransform:'uppercase'}}>
+            <Icon.Bag/> Cart · {cartCount}
+          </button>
+        </div>
+      </div>
+      <style>{`@media(max-width:980px){.navlinks{display:none!important}}`}</style>
+    </nav>
+  );
+}
+
+/* ---------- CART DRAWER ---------- */
+function CartDrawer({open,onClose,items,onRemove}){
+  const total=items.reduce((s,i)=>s+i.price*(i.qty||1),0);
+  return(
+    <>
+      <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:90,background:'rgba(0,0,0,.6)',opacity:open?1:0,pointerEvents:open?'auto':'none',transition:'opacity .3s'}}/>
+      <aside style={{position:'fixed',top:0,right:0,bottom:0,width:'min(420px,92vw)',zIndex:91,background:'var(--bg-2)',borderLeft:'1px solid var(--line-2)',transform:open?'translateX(0)':'translateX(100%)',transition:'transform .35s ease',display:'flex',flexDirection:'column'}}>
+        <div style={{padding:'24px',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'1px solid var(--line)'}}>
+          <div className="display" style={{fontSize:24}}>Winkelmandje</div>
+          <button onClick={onClose} style={{width:36,height:36,borderRadius:'50%',border:'1px solid var(--line-2)',fontSize:20}}>×</button>
+        </div>
+        <div style={{flex:1,overflowY:'auto',padding:24,display:'grid',gap:14}}>
+          {items.length===0&&<div style={{textAlign:'center',padding:'60px 0',color:'var(--ink-3)'}}>Mandje is leeg.</div>}
+          {items.map(i=>(
+            <div key={i.id+i.size} style={{display:'grid',gridTemplateColumns:'72px 1fr auto',gap:14,padding:14,border:'1px solid var(--line)',borderRadius:12}}>
+              <div style={{width:72,height:72,borderRadius:8,padding:6,background:'linear-gradient(180deg,#0d1413,#0a0f0e)'}}><BagMockup color={i.color} label={i.name} sub={i.sub?.toUpperCase()||''} size={i.size||'5kg'} diameter={i.diameter||'6mm'} accent={i.accent}/></div>
+              <div>
+                <div style={{fontSize:10,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)'}}>{i.type}</div>
+                <div className="display" style={{fontSize:18,marginTop:2,color:'var(--accent)'}}>{i.name}</div>
+                <div style={{fontSize:11,color:'var(--ink-2)',marginTop:4}}>{i.size} · qty {i.qty||1}</div>
+              </div>
+              <div style={{textAlign:'right'}}>
+                <div className="display" style={{fontSize:18}}>€{(i.price*(i.qty||1)).toFixed(2).replace('.',',')}</div>
+                <button onClick={()=>onRemove(i.id+i.size)} style={{fontSize:11,color:'var(--ink-3)',marginTop:6,textDecoration:'underline'}}>Verwijder</button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{padding:24,borderTop:'1px solid var(--line)'}}>
+          <div style={{display:'flex',justifyContent:'space-between',marginBottom:14}}><span style={{color:'var(--ink-2)'}}>Subtotaal</span><span className="display" style={{fontSize:24}}>€{total.toFixed(2).replace('.',',')}</span></div>
+          <button style={{width:'100%',padding:16,borderRadius:999,background:'var(--accent)',color:'#fff',fontWeight:700,fontSize:13,letterSpacing:'.16em',textTransform:'uppercase'}}>Afrekenen · €{total.toFixed(2).replace('.',',')}</button>
+        </div>
+      </aside>
+    </>
+  );
+}
+
+/* ---------- RELATED PRODUCT CARD ---------- */
+function RelatedCard({p}){
+  const [hover,setHover]=useState(false);
+  return(
+    <a href={`product.html?id=${p.id}`}
+      onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
+      style={{display:'flex',flexDirection:'column',background:'var(--bg-2)',border:'1px solid var(--line)',borderRadius:14,overflow:'hidden',transition:'all .3s ease',transform:hover?'translateY(-4px)':'translateY(0)',borderColor:hover?'var(--line-2)':'var(--line)',textDecoration:'none'}}>
+      <div style={{aspectRatio:'1/1',background:'linear-gradient(180deg,#0d1413 0%,#0a0f0e 100%)',padding:'30px 40px'}}>
+        <BagMockup color={p.color} label={p.name} sub={p.sub.toUpperCase()} size={p.sizes[0]} diameter={p.diameters[0]} accent={p.accent}/>
+      </div>
+      <div style={{padding:'14px 16px'}}>
+        <div style={{fontSize:10,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)'}}>{p.type}</div>
+        <div className="display" style={{fontSize:18,marginTop:4,color:'var(--accent)'}}>{p.name}</div>
+        <div className="display" style={{fontSize:16,marginTop:8}}>€{(p.salePrice||p.price).toFixed(2).replace('.',',')}</div>
+      </div>
+    </a>
+  );
+}
+
+/* ---------- PRODUCT PAGE ---------- */
+function ProductPage(){
+  const params=new URLSearchParams(window.location.search);
+  const id=params.get('id')||'carppro';
+  const p=PRODUCTS.find(x=>x.id===id)||PRODUCTS[0];
+
+  const [diameter,setDiameter]=useState(p.diameters[Math.min(2,p.diameters.length-1)]);
+  const [size,setSize]=useState(p.sizes[Math.min(1,p.sizes.length-1)]);
+  const [qty,setQty]=useState(1);
+  const [accord,setAccord]=useState('ingr');
+  const [view,setView]=useState(0);
+  const [cartOpen,setCartOpen]=useState(false);
+  const [cart,setCart]=useState(()=>getCart());
+  const [darkMode,setDarkMode]=useState(()=>localStorage.getItem('pb-theme')!=='light');
+  const [added,setAdded]=useState(false);
+
+  useEffect(()=>{
+    document.title=`${p.name} — PELLETBAITS`;
+    const html=document.documentElement;
+    if(darkMode){html.removeAttribute('data-theme');localStorage.removeItem('pb-theme');}
+    else{html.setAttribute('data-theme','light');localStorage.setItem('pb-theme','light');}
+  },[darkMode,p.name]);
+
+  const sizePrice={
+    [p.sizes[0]]:parseFloat((p.salePrice||p.price)*0.7),
+    [p.sizes[Math.min(1,p.sizes.length-1)]]:p.salePrice||p.price,
+    [p.sizes[p.sizes.length-1]]:parseFloat(((p.salePrice||p.price)*2.2).toFixed(2)),
+  };
+
+  const addToCart=()=>{
+    const key=p.id+size;
+    const updated=getCart();
+    const ex=updated.find(x=>(x.id+x.size)===key);
+    let next;
+    if(ex){next=updated.map(x=>(x.id+x.size)===key?{...x,qty:(x.qty||1)+qty}:x);}
+    else{next=[...updated,{...p,size,diameter,qty,price:sizePrice[size]||p.price}];}
+    saveCart(next);
+    setCart(next);
+    setAdded(true);
+    setCartOpen(true);
+    setTimeout(()=>setAdded(false),2000);
+  };
+
+  const removeFromCart=(key)=>{
+    const next=cart.filter(x=>(x.id+x.size)!==key);
+    saveCart(next);setCart(next);
+  };
+
+  const totalQty=cart.reduce((s,i)=>s+(i.qty||1),0);
+  const related=PRODUCTS.filter(x=>x.id!==p.id).slice(0,4);
+
+  return(
+    <>
+      <Nav cartCount={totalQty} onCart={()=>setCartOpen(true)} darkMode={darkMode} onToggle={()=>setDarkMode(d=>!d)}/>
+
+      <div className="container" style={{padding:'32px 0 80px'}}>
+        {/* Breadcrumb */}
+        <nav style={{display:'flex',alignItems:'center',gap:8,fontSize:11,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)',marginBottom:32}}>
+          <a href="index.html" style={{color:'var(--ink-3)'}}>Home</a>
+          <Icon.Arrow size={12}/>
+          <a href="shop.html" style={{color:'var(--ink-3)'}}>Shop</a>
+          <Icon.Arrow size={12}/>
+          <span style={{color:'var(--ink)'}}>{p.name}</span>
+        </nav>
+
+        {/* Main layout */}
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:60}} className="pdp-grid">
+
+          {/* Gallery */}
+          <div style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:16}} className="pdp-gallery">
+            <div style={{display:'flex',flexDirection:'column',gap:10}}>
+              {[0,1,2,3].map(i=>(
+                <button key={i} onClick={()=>setView(i)} style={{
+                  aspectRatio:'1/1',width:'100%',borderRadius:8,
+                  background:'linear-gradient(180deg,#0d1413,#0a0f0e)',
+                  border:view===i?'1px solid var(--accent)':'1px solid var(--line-2)',
+                  padding:8,
+                }}>
+                  <BagMockup color={p.color} label={p.name} sub={p.sub.toUpperCase()} size={size} diameter={diameter} accent={p.accent}/>
+                </button>
+              ))}
+            </div>
+            <div style={{position:'sticky',top:90,height:'fit-content'}}>
+              <div style={{position:'relative',aspectRatio:'1/1',borderRadius:14,background:'linear-gradient(180deg,#0d1413 0%,#0a0f0e 100%)',padding:60}}>
+                <div style={{position:'absolute',top:16,left:16,padding:'6px 12px',borderRadius:999,background:'rgba(0,0,0,.6)',backdropFilter:'blur(8px)',border:'1px solid var(--line-2)',fontSize:10,letterSpacing:'.2em',textTransform:'uppercase'}}>Op voorraad</div>
+                <BagMockup color={p.color} label={p.name} sub={p.sub.toUpperCase()} size={size} diameter={diameter} accent={p.accent}/>
+              </div>
+            </div>
+          </div>
+
+          {/* Info */}
+          <div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap',marginBottom:14}}>
+              {[p.tag,'Hoog eiwit',p.type].filter(Boolean).map(t=>(
+                <span key={t} style={{fontSize:10,letterSpacing:'.18em',padding:'5px 10px',border:'1px solid var(--line-2)',borderRadius:4,textTransform:'uppercase',color:'var(--ink-2)'}}>{t}</span>
+              ))}
+            </div>
+            <h1 className="display" style={{fontSize:'clamp(48px,5.6vw,80px)',margin:0,color:'var(--accent)'}}>{p.name}</h1>
+            <div style={{fontSize:14,color:'var(--ink-2)',marginTop:6}}>{p.sub}</div>
+            <div style={{display:'flex',alignItems:'center',gap:12,marginTop:14}}>
+              <div style={{display:'flex',gap:2,color:'var(--gold)'}}>{[1,2,3,4,5].map(i=><Icon.Star key={i} filled={i<=Math.round(p.rating)}/>)}</div>
+              <span style={{fontSize:13,color:'var(--ink-2)'}}>{p.rating} · {p.reviews} reviews</span>
+            </div>
+            <p style={{marginTop:20,maxWidth:520,fontSize:15,lineHeight:1.6,color:'var(--ink-2)',fontWeight:300}}>
+              Onze meest verkochte karperpellet. Hoge proteïnewaarde, sterke geur, perfecte stabiliteit in water.
+            </p>
+
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10,marginTop:24}}>
+              {[
+                {Ic:Icon.Drop,label:'Hoog eiwit',val:'38%'},
+                {Ic:Icon.Ruler,label:'Waterval',val:'4 uur'},
+                {Ic:Icon.Box,label:'Verpakking',val:p.sizes.length+'x'},
+              ].map(s=>(
+                <div key={s.label} style={{padding:14,border:'1px solid var(--line-2)',borderRadius:10,background:'var(--bg-2)'}}>
+                  <s.Ic/>
+                  <div className="display" style={{fontSize:18,marginTop:8}}>{s.val}</div>
+                  <div style={{fontSize:10,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--ink-3)',marginTop:4}}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Diameter */}
+            <div style={{marginTop:28}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:10}}>
+                <span style={{fontSize:13}}>Diameter: <span style={{color:'var(--ink-2)'}}>{diameter}</span></span>
+              </div>
+              <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                {p.diameters.map(d=>(
+                  <button key={d} onClick={()=>setDiameter(d)} style={{
+                    padding:'10px 16px',borderRadius:8,fontSize:13,fontWeight:600,
+                    background:diameter===d?'#0a0f0e':'transparent',
+                    color:diameter===d?'#fff':'var(--ink-2)',
+                    border:diameter===d?'1px solid #0a0f0e':'1px solid var(--line-2)',
+                  }}>{d}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Size / inhoud */}
+            <div style={{marginTop:24}}>
+              <div style={{fontSize:13,marginBottom:10}}>Inhoud: <span style={{color:'var(--ink-2)'}}>{size}</span></div>
+              <div style={{display:'grid',gap:8}}>
+                {p.sizes.map((s,i)=>{
+                  const price=sizePrice[s]||(p.salePrice||p.price);
+                  const isPop=i===Math.min(1,p.sizes.length-1);
+                  return(
+                    <button key={s} onClick={()=>setSize(s)} style={{
+                      display:'flex',justifyContent:'space-between',alignItems:'center',
+                      padding:'14px 16px',borderRadius:10,
+                      background:size===s?'rgba(99,207,5,.08)':'transparent',
+                      border:size===s?'1px solid var(--accent)':'1px solid var(--line-2)',
+                    }}>
+                      <span style={{display:'flex',alignItems:'center',gap:12}}>
+                        <span style={{width:18,height:18,borderRadius:'50%',border:size===s?'5px solid var(--accent)':'1px solid var(--line-2)'}}/>
+                        <span style={{fontSize:14,fontWeight:500}}>{s}</span>
+                        {isPop&&<span style={{fontSize:9,letterSpacing:'.18em',padding:'3px 8px',borderRadius:4,background:'var(--gold)',color:'#0a0f0e',textTransform:'uppercase',fontWeight:700}}>Populair</span>}
+                      </span>
+                      <span className="display" style={{fontSize:18}}>€{price.toFixed?price.toFixed(2).replace('.',','):price}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ATC box */}
+            <div style={{marginTop:28,padding:24,borderRadius:14,background:'var(--bg-2)',border:'1px solid var(--line)'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',gap:20,flexWrap:'wrap'}}>
+                <div>
+                  <div className="display" style={{fontSize:42,color:'var(--ink)'}}>€{((sizePrice[size]||p.price)*qty).toFixed(2).replace('.',',')}</div>
+                  <div style={{fontSize:12,color:'var(--ink-3)',marginTop:4}}>incl. BTW · {size} · {diameter}</div>
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:0,border:'1px solid var(--line-2)',borderRadius:999,padding:4}}>
+                  <button onClick={()=>setQty(Math.max(1,qty-1))} style={{width:32,height:32,borderRadius:'50%',display:'inline-flex',alignItems:'center',justifyContent:'center'}}><Icon.Minus/></button>
+                  <span style={{padding:'0 16px',fontWeight:600}}>{qty}</span>
+                  <button onClick={()=>setQty(qty+1)} style={{width:32,height:32,borderRadius:'50%',display:'inline-flex',alignItems:'center',justifyContent:'center'}}><Icon.Plus/></button>
+                </div>
+              </div>
+              <button onClick={addToCart} style={{
+                width:'100%',marginTop:18,padding:'18px',borderRadius:999,
+                background:added?'#3a8e04':'var(--accent)',
+                color:'#fff',fontWeight:700,fontSize:13,letterSpacing:'.18em',textTransform:'uppercase',
+                boxShadow:'0 14px 40px rgba(99,207,5,.35)',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:12,
+                transition:'background .2s'
+              }}>
+                {added?'Toegevoegd!':'In winkelmandje'} · €{((sizePrice[size]||p.price)*qty).toFixed(2).replace('.',',')} <Icon.Arrow/>
+              </button>
+              <div style={{display:'flex',justifyContent:'space-between',marginTop:14,fontSize:11,color:'var(--ink-2)',letterSpacing:'.1em',textTransform:'uppercase'}}>
+                <span style={{display:'flex',alignItems:'center',gap:8}}><Icon.Truck/> Voor 23:00 — morgen in huis</span>
+                <span style={{display:'flex',alignItems:'center',gap:8}}><Icon.Box/> 14 dagen retour</span>
+              </div>
+              <div style={{display:'flex',gap:8,marginTop:14,opacity:.7}}>
+                {['iDEAL','Bancontact','Visa','Mastercard','Klarna'].map(m=>(
+                  <span key={m} style={{fontSize:10,padding:'4px 8px',border:'1px solid var(--line-2)',borderRadius:4,letterSpacing:'.1em'}}>{m}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Accordion */}
+            <div style={{marginTop:28}}>
+              {[
+                {key:'ingr',title:'Ingrediënten',body:'Vismeel, halibut, larve, soja, lecithine, betaïne, vitamine B-complex.'},
+                {key:'use',title:'Hoe te gebruiken',body:'Voer 200–500g per sessie. Combineer met PVA-zakjes voor maximaal effect.'},
+                {key:'spec',title:'Doelvis',body:'Karper, brasem, meerval. Geschikt voor stilstaand en stromend water.'},
+                {key:'ship',title:'Verzending & retour',body:'Gratis verzending vanaf €45. Retour binnen 14 dagen.'}
+              ].map(a=>(
+                <div key={a.key} style={{borderTop:'1px solid var(--line)'}}>
+                  <button onClick={()=>setAccord(accord===a.key?null:a.key)} style={{display:'flex',justifyContent:'space-between',alignItems:'center',width:'100%',padding:'18px 0',fontSize:14,fontWeight:500}}>
+                    {a.title}<Icon.Chev d={accord===a.key?'up':'down'}/>
+                  </button>
+                  {accord===a.key&&<div style={{paddingBottom:18,fontSize:14,color:'var(--ink-2)',lineHeight:1.6}}>{a.body}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Related */}
+        <div style={{marginTop:100}}>
+          <h2 className="display" style={{fontSize:'clamp(36px,4vw,56px)',color:'var(--accent)',marginBottom:32}}>Vissers kochten ook</h2>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16}} className="rec-grid">
+            {related.map(r=><RelatedCard key={r.id} p={r}/>)}
+          </div>
+        </div>
+      </div>
+
+      <footer style={{borderTop:'1px solid var(--line)',padding:'40px 0'}}>
+        <div className="container" style={{display:'flex',flexDirection:'column',gap:6,fontSize:13,color:'var(--ink-3)'}}>
+          <a href="mailto:timo@pelletbaits.nl" style={{color:'var(--ink-3)'}}>timo@pelletbaits.nl</a>
+          <a href="tel:+31610487142" style={{color:'var(--ink-3)'}}>06-10487142</a>
+          <span>De Droogmakerij 22D, Heiloo</span>
+          <span style={{marginTop:8}}>&copy; 2026 Pelletbaits. Alle rechten voorbehouden.</span>
+        </div>
+      </footer>
+
+      <CartDrawer open={cartOpen} onClose={()=>setCartOpen(false)} items={cart} onRemove={removeFromCart}/>
+
+      <style>{`
+        @media(max-width:980px){.pdp-grid{grid-template-columns:1fr!important;gap:40px!important}}
+        @media(max-width:520px){.pdp-gallery{grid-template-columns:60px 1fr!important}}
+        @media(max-width:1100px){.rec-grid{grid-template-columns:1fr 1fr!important}}
+        @media(max-width:560px){.rec-grid{grid-template-columns:1fr!important}}
+      `}</style>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<ProductPage/>);
+</script>
+
+<a href="https://wa.me/31610487142" target="_blank" rel="noopener" class="wa-btn" aria-label="Neem contact op via WhatsApp">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+  <span class="wa-btn-label">WhatsApp</span>
+</a>
+</body>
+</html>
