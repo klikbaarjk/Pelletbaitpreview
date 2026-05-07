@@ -344,7 +344,7 @@ function ProductCard({p,onAdd,onOpen,view='grid'}){
             <Icon.Star/> <span style={{color:'var(--ink-2)'}}>{p.rating} <span style={{color:'var(--ink-3)'}}>({p.reviews})</span></span>
           </div>
         </div>
-        <div className="display" style={{fontSize:22,marginTop:6,color:'var(--accent)'}}>{p.name}</div>
+        <div className="display" onClick={()=>onOpen(p.id)} style={{fontSize:22,marginTop:6,color:'var(--accent)',cursor:'pointer'}}>{p.name}</div>
         <div style={{fontSize:12,color:'var(--ink-2)',marginTop:2}}>{p.sub}</div>
 
         <div style={{display:'flex',gap:6,marginTop:14}}>
@@ -463,7 +463,7 @@ function ShopGrid({onAdd,onOpen}){
 }
 
 /* ---------- PRODUCT DETAIL ---------- */
-function ProductDetail({pid,onClose,onAdd}){
+function ProductDetail({pid,onClose,onAdd,onOpen}){
   const p = PRODUCTS.find(x=>x.id===pid) || PRODUCTS[0];
   const [diameter,setDiameter] = useState(p.diameters[Math.min(2,p.diameters.length-1)]);
   const [size,setSize] = useState(p.sizes[Math.min(1,p.sizes.length-1)]);
@@ -634,7 +634,7 @@ function ProductDetail({pid,onClose,onAdd}){
           <h2 className="display" style={{fontSize:'clamp(36px,4vw,56px)',color:'var(--accent)',marginBottom:32}}>Vissers kochten ook</h2>
           <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16}} className="rec-grid">
             {recs.map(r=>(
-              <ProductCard key={r.id} p={r} onAdd={(x)=>onAdd(x)} onOpen={()=>{}}/>
+              <ProductCard key={r.id} p={r} onAdd={(x)=>onAdd(x)} onOpen={(id)=>{onOpen&&onOpen(id);window.scrollTo(0,0)}}/>
             ))}
           </div>
         </div>
@@ -727,7 +727,7 @@ function App(){
       <Nav cartCount={totalQty} onCart={()=>setCartOpen(true)} darkMode={darkMode} onToggleTheme={()=>setDarkMode(d=>!d)}/>
       <Header/>
       <ShopGrid onAdd={add} onOpen={(id)=>{setPdp(id);window.scrollTo(0,0)}}/>
-      {pdp && <ProductDetail pid={pdp} onClose={()=>setPdp(null)} onAdd={add}/>}
+      {pdp && <ProductDetail pid={pdp} onClose={()=>setPdp(null)} onAdd={add} onOpen={(id)=>{setPdp(id);window.scrollTo(0,0)}}/>}
       <Cart open={cartOpen} onClose={()=>setCartOpen(false)} items={cart} onRemove={remove}/>
       <footer style={{borderTop:'1px solid var(--line)',padding:'40px 0',marginTop:80}}>
         <div className="container" style={{display:'flex',flexDirection:'column',gap:6,fontSize:13,color:'var(--ink-3)'}}>
