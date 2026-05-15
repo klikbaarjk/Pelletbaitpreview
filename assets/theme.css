@@ -13,9 +13,9 @@
   --line:     rgba(255,255,255,.08);
   --line-2:   rgba(255,255,255,.14);
   --accent:   #63cf05;
-  --accent-2: #608846;
-  --gold:     #89B866;
-  --moss:     #365733;
+  --accent-2: #63cf05;
+  --gold:     #63cf05;
+  --moss:     #63cf05;
   --deep:     #0b1e22;
 
   --font-display: 'Barlow Condensed', system-ui, sans-serif;
@@ -97,10 +97,69 @@ input, select { font: inherit; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 50;
-  padding: 18px 0;
+  padding: 0;
   background: transparent;
   border-bottom: 1px solid transparent;
   transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease;
+}
+.header-top { padding: 14px 0; }
+.header-categories { padding: 6px 0 10px; }
+.site-header.scrolled .header-categories,
+.header-categories.has-divider {
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+html[data-theme="light"] .site-header.scrolled .header-categories {
+  border-top-color: rgba(0,0,0,.08);
+}
+.header-cat-nav {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x proximity;
+}
+.header-cat-nav::-webkit-scrollbar { display: none; }
+.header-cat {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.82);
+  border: 1px solid transparent;
+  transition: color var(--dur-fast) ease, background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+  scroll-snap-align: start;
+  white-space: nowrap;
+}
+.header-cat:hover {
+  color: var(--accent);
+  border-color: rgba(99,207,5,.28);
+  background: rgba(99,207,5,.06);
+}
+.header-cat.active {
+  color: #0a0f0e;
+  background: var(--accent);
+}
+.header-cat.active:hover {
+  background: var(--accent-2);
+  color: #fff;
+  border-color: transparent;
+}
+html[data-theme="light"] .header-cat { color: rgba(13,20,18,.82); }
+html[data-theme="light"] .header-cat:hover { color: var(--accent-2); }
+/* When NOT scrolled in light mode, header sits over dark hero — keep pills light. */
+html[data-theme="light"] .site-header:not(.scrolled) .header-cat { color: rgba(255,255,255,.85); }
+html[data-theme="light"] .site-header:not(.scrolled) .header-cat:hover { color: var(--accent); }
+@media(max-width:980px){
+  .header-categories { display: none; }
 }
 .site-header.scrolled {
   background: rgba(10,15,14,.85);
@@ -139,7 +198,7 @@ input, select { font: inherit; }
   display: block;
 }
 html[data-theme="light"] .header-logo-img {
-  filter: brightness(0);
+  /* keep brand green in light mode */
 }
 .header-logo-icon {
   display: inline-flex;
@@ -1646,7 +1705,7 @@ html[data-theme="light"] {
   --line:     rgba(0,0,0,.09);
   --line-2:   rgba(0,0,0,.15);
   --deep:     #d4d1ca;
-  --moss:     #2a5444;
+  --moss:     #63cf05;
   --inv-bg:   #0d1412;
   --inv-color: #f5f2ec;
 }
@@ -1664,6 +1723,16 @@ html[data-theme="light"] .site-header.scrolled .header-search-btn,
 html[data-theme="light"] .site-header.scrolled .theme-toggle-btn {
   color: var(--ink);
   border-color: var(--line-2);
+}
+
+/* When NOT scrolled in light mode, header sits over the dark hero —
+   keep the theme toggle visible by inverting its colors. */
+html[data-theme="light"] .site-header:not(.scrolled) .theme-toggle-btn {
+  color: rgba(255,255,255,.95);
+  border-color: rgba(255,255,255,.35);
+}
+html[data-theme="light"] .site-header:not(.scrolled) .theme-toggle-btn:hover {
+  background: rgba(255,255,255,.1);
 }
 html[data-theme="light"] .header-cart-btn {
   background: var(--accent);
@@ -1764,8 +1833,8 @@ html[data-theme="light"] .theme-icon--sun  { opacity: 1; transform: rotate(0deg)
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #25D366;
-  color: #fff;
+  background: var(--accent);
+  color: #0a0f0e;
   padding: 14px 22px;
   border-radius: 999px;
   text-decoration: none;
@@ -1780,10 +1849,10 @@ html[data-theme="light"] .theme-icon--sun  { opacity: 1; transform: rotate(0deg)
 }
 .wa-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 36px rgba(37,211,102,.55);
+  box-shadow: 0 14px 36px rgba(99,207,5,.55);
 }
 .wa-btn:focus-visible {
-  outline: 2px solid #25D366;
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
